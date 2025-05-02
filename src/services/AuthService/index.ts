@@ -4,16 +4,19 @@ import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
-export const registerUser = async (userData: FieldValues) => {
+export const registerUser = async (userData: FormData) => {
+  console.log("🐌", userData);
+  
+
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user/registration`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
+      body: userData
     });
+
     const result = await res.json();
+    console.log({result});
+    
 
     if (result.success) {
       (await cookies()).set("accessToken", result.data.accessToken);
@@ -25,6 +28,7 @@ export const registerUser = async (userData: FieldValues) => {
     return Error(error);
   }
 };
+
 
 export const loginUser = async (userData: FieldValues) => {
   try {
