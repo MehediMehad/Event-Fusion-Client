@@ -14,6 +14,10 @@ export const middleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl;
 
   const userInfo = await getCurrentUser();
+  console.log(userInfo);
+
+  // অথবা রোলকে লোয়ারকেসে নরমালাইজ করুন
+  const normalizedRole = userInfo?.role.toLowerCase() as Role;
 
   if (!userInfo) {
     if (authRoutes.includes(pathname)) {
@@ -28,8 +32,8 @@ export const middleware = async (request: NextRequest) => {
     }
   }
 
-  if (userInfo?.role && roleBasedPrivateRoutes[userInfo?.role as Role]) {
-    const routes = roleBasedPrivateRoutes[userInfo?.role as Role];
+  if (normalizedRole && roleBasedPrivateRoutes[normalizedRole]) {
+    const routes = roleBasedPrivateRoutes[normalizedRole];
     if (routes.some((route) => pathname.match(route))) {
       return NextResponse.next();
     }
@@ -45,6 +49,7 @@ export const config = {
     "/admin",
     "/admin/:page",
     "/user",
+    "/user/create-event",
     "/user/:page",
   ],
 };

@@ -17,16 +17,66 @@ interface FeaturedEventProps {
 
 export default function FeaturedEvent({ event }: FeaturedEventProps) {
   const { user } = useUser();
+  console.log(user);
+  
+  console.log(event);
 
   const getEventBadge = () => {
     if (event.is_public && event.registration_fee > 0) {
+      return <Badge variant="secondary">Public & Paid</Badge>;
+    } else if (!event.is_public && event.registration_fee > 0) {
       return <Badge variant="secondary">Private & Paid</Badge>;
-    } else if (event.is_public) {
-      return <Badge variant="secondary">Private</Badge>;
+    } else if (event.is_public && event.registration_fee === 0) {
+      return <Badge variant="secondary">Public & Free </Badge>;
+    } else if (!event.is_public && event.registration_fee === 0) {
+      return <Badge variant="secondary">Private && Free</Badge>;
     } else if (event.registration_fee > 0) {
       return <Badge variant="secondary">Paid</Badge>;
     } else {
       return <Badge variant="secondary">Free</Badge>;
+    }
+  };
+
+  const joinEvent = () => {
+    if (event.is_public) {
+      return (
+        <Button
+          size="lg"
+          className={cn(
+            "transition-all hover:shadow-lg",
+            event.registration_fee > 0
+              ? "bg-primary hover:bg-primary/90"
+              : "bg-primary hover:bg-primary/90"
+          )}
+          asChild
+        >
+          <Link href={`/events/${event.id}`}>
+            {event.registration_fee > 0
+              ? `Register • $${event.registration_fee.toFixed(2)}`
+              : "Register for Free"}
+          </Link>
+        </Button>
+      );
+    } else if (!event.is_public) {
+      return (
+        <Button
+          size="lg"
+          className={cn(
+            "transition-all hover:shadow-lg",
+            event.registration_fee > 0
+              ? "bg-primary hover:bg-primary/90"
+              : "bg-primary hover:bg-primary/90"
+          )}
+          asChild
+        >
+          <Link href={`/request/${event.id}`}>
+            {event.registration_fee > 0
+              // ? `Join Request • $${event.registration_fee.toFixed(2)}`
+              ? `Join Request`
+              : "Join Request"}
+          </Link>
+        </Button>
+      );
     }
   };
 
@@ -49,7 +99,7 @@ export default function FeaturedEvent({ event }: FeaturedEventProps) {
             <div className="flex items-center gap-3">
               {getEventBadge()}
               <span className="text-sm font-medium text-white/90">
-                Hosted by {event.organizer}
+                Hosted by {event?.organizer?.name}
               </span>
             </div>
             <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">
@@ -76,7 +126,7 @@ export default function FeaturedEvent({ event }: FeaturedEventProps) {
               </div>
             </div>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Button
+              {/* <Button
                 size="lg"
                 className={cn(
                   "transition-all hover:shadow-lg",
@@ -91,7 +141,8 @@ export default function FeaturedEvent({ event }: FeaturedEventProps) {
                     ? `Register • $${event.registration_fee.toFixed(2)}`
                     : "Register for Free"}
                 </Link>
-              </Button>
+              </Button> */}
+              {joinEvent()}
               {user && (
                 <Button
                   size="lg"

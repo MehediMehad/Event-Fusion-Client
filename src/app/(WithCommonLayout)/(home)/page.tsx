@@ -1,19 +1,14 @@
-// import Category from "@/components/modules/home/Category";
-// import FeaturedProducts from "@/components/modules/home/FeaturedProducts";
-// import FlashSale from "@/components/modules/home/FlashSale";
-// import HeroSection from "@/components/modules/home/HeroSection";
-// import TopBrands from "@/components/modules/home/TopBrands";
-
-import FeaturedEvent from "@/components/modules/eventHome/FeaturedEvent";
-import { getUpcomingLastEvent } from "@/services/Event";
+import HeroSection from "@/components/modules/eventHome/HeroSection";
+import UpcomingEvents from "@/components/modules/eventHome/UpcomingEvents";
+import NMContainer from "@/components/ui/core/NMContainer";
 
 const HomePage = async () => {
-    const { data: featuredEvent  } = await getUpcomingLastEvent();
-    console.log({featuredEvent});
-    
   return (
     <div>
-      <FeaturedEvent event={featuredEvent} />
+      <HeroSection />
+      <NMContainer>
+        <UpcomingEvents />
+      </NMContainer>
     </div>
   );
 };

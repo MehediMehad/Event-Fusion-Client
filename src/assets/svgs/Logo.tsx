@@ -5,7 +5,7 @@ export default function Logo() {
   return (
     <div className="group flex justify-center items-center gap-2">
       {/* Logo with gradient effect */}
-      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 p-2 transition-all duration-300 group-hover:rotate-12">
+      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 p-2 transition-all duration-300">
         <Image
           src={logo} // Use a simple SVG icon
           alt="Event Fusion Logo"

@@ -71,15 +71,14 @@ export default function EventForm() {
     }
 
     // Format date and time
-    const formattedDate = format(data.date || data.time, "yyyy-MM-dd");
-    const formattedTime = format(data.time, "HH:mm");
-
+    const formattedDateTime = format(data.time, "yyyy-MM-dd HH:mm");
+    
     const eventData = {
       organizerId: user.userId,
       event: {
         title: data.title,
         description: data.description,
-        date_time: `${formattedDate} ${formattedTime}`,
+        date_time: formattedDateTime,
         venue: data.venue,
         location: data.location,
         is_public: data.is_public,
@@ -105,7 +104,7 @@ export default function EventForm() {
 
       if (res.success) {
         toast.success(res.message);
-        router.push("/events");
+        // router.push("/");
       } else {
         toast.error(res.message);
       }
@@ -152,7 +151,7 @@ export default function EventForm() {
 
   return (
     <Card>
-      <CardContent className="pt-6">
+      <CardContent className="">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="w-full">

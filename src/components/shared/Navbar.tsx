@@ -48,7 +48,7 @@ export default function Navbar() {
                   <Button className="rounded-full">Join Event</Button>
                 </Link>
 
-                <Link href="/create-shop">
+                <Link href="/user/create-event">
                   <Button
                     className="rounded-full border bg-white text-black hover:bg-gray-100"
                   >
