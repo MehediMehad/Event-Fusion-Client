@@ -5,9 +5,6 @@ import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
 export const registerUser = async (userData: FormData) => {
-  console.log("🐌", userData);
-  
-
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user/registration`, {
       method: "POST",
@@ -15,9 +12,6 @@ export const registerUser = async (userData: FormData) => {
     });
 
     const result = await res.json();
-    console.log({result});
-    
-
     if (result.success) {
       (await cookies()).set("accessToken", result.data.accessToken);
       (await cookies()).set("refreshToken", result?.data?.refreshToken);

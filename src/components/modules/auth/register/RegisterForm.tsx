@@ -50,10 +50,6 @@ export default function RegisterForm() {
     try {
       const formData = new FormData();
       formData.append("data", JSON.stringify(data));
-      console.log(formData);
-      
-
-
       const res = await registerUser(formData);
       setIsLoading(true);
       if (res?.success) {

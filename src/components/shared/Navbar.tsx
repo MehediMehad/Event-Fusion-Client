@@ -15,8 +15,6 @@ import { logout } from "@/services/AuthService";
 import { useUser } from "@/context/UserContext";
 import { usePathname, useRouter } from "next/navigation";
 import { protectedRoutes } from "@/contacts";
-import { useAppSelector } from "@/redux/hooks";
-import { orderedProductsSelector } from "@/redux/features/cartSlice";
 import Logo from "./Logo";
 
 export default function Navbar() {
@@ -24,7 +22,6 @@ export default function Navbar() {
 
   const pathname = usePathname();
   const router = useRouter();
-  const products = useAppSelector(orderedProductsSelector);
 
   const handleLogOut = () => {
     logout();

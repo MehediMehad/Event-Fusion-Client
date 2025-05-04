@@ -26,14 +26,14 @@ const ProfilePreviewer = ({
       {imagePreview.map((preview, index) => (
         <div
           key={index}
-          className="relative aspect-square rounded-md overflow-hidden border border-dashed border-gray-300"
+          className="relative aspect-video w-full mx-auto rounded-md overflow-hidden border border-dashed border-gray-300"
         >
           <Image
             width={200}
             height={200}
             src={preview}
             alt={`Preview ${index + 1}`}
-            className="object-cover w-full h-full"
+            className="object-cover w-full"
           />
           <Button
             type="button"
