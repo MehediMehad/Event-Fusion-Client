@@ -29,3 +29,17 @@ export const addEvent = async (eventData: FormData): Promise<any> => {
     return { success: false, message: error.message || "Unknown error" };
   }
 };
+
+export const getUpcomingLastEvent = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/event/upcoming`, {
+      next: {
+        tags: ["EVENT"],
+      },
+    });
+
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
