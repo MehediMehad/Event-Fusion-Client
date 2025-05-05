@@ -1,9 +1,8 @@
-import { getUpcomingLastEvent } from "@/services/Event";
 import FeaturedEvent from "./FeaturedEvent";
 import NMContainer from "@/components/ui/core/NMContainer";
+import { EventType } from "@/types/event";
 
-const HeroSection = async () => {
-     const { data: featuredEvent  } = await getUpcomingLastEvent();
+const HeroSection = ({featuredEvent}: {featuredEvent: EventType}) => {
      if (!featuredEvent) {
 
        return <NMContainer>

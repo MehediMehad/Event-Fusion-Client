@@ -1,14 +1,12 @@
 import NMContainer from "@/components/ui/core/NMContainer";
 import EventSlider from "./EventSlider";
-import { getAllUpcomingEvent } from "@/services/Event";
+import { EventType } from "@/types/event";
 
-const UpcomingEvents = async () => {
-  const { data: events  } = await getAllUpcomingEvent();
-  const top9Events = events?.slice(1, 10) || [];
+
+const UpcomingEvents = ({top9Events}: {top9Events:  EventType[]}) => {
   if (!top9Events) {
-
     return <NMContainer>
-     <h1 className="h-[80vh] bg-black/5 pt-10 text-center">featuredEvent not found</h1>
+     <h1 className="h-[80vh] bg-black/5 pt-10 text-center">Upcoming Events not found</h1>
     </NMContainer>
   }
   

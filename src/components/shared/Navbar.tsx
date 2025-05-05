@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "../ui/button";
-import { Heart, LogOut } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -16,12 +16,13 @@ import { useUser } from "@/context/UserContext";
 import { usePathname, useRouter } from "next/navigation";
 import { protectedRoutes } from "@/contacts";
 import Logo from "./Logo";
+import { useState } from "react";
 
 export default function Navbar() {
   const { user, setIsLoading } = useUser();
-
   const pathname = usePathname();
   const router = useRouter();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogOut = () => {
     logout();
@@ -39,21 +40,50 @@ export default function Navbar() {
             <Logo />
           </h1>
         </Link>
-        <div className="max-w-md  flex-grow"></div>
-        <nav className="flex gap-2">
+
+        {/* Desktop nav items */}
+        <nav className="hidden md:flex gap-5 items-center">
+          <Link href="/" className="hover:text-primary">
+            Home
+          </Link>
+          <Link href="/events" className="hover:text-primary">
+            Events
+          </Link>
+          <Link href="/about" className="hover:text-primary">
+            About
+          </Link>
+        </nav>
+
+        {/* Mobile menu toggle */}
+        <button
+          className="md:hidden"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle Menu"
+        >
+          <Menu />
+        </button>
+
+        {/* Mobile nav dropdown */}
+        {menuOpen && (
+          <div className="absolute top-16 left-0 w-full bg-background shadow-md flex flex-col gap-3 p-4 md:hidden z-[99999]">
+            <Link href="/" onClick={() => setMenuOpen(false)}>
+              Home
+            </Link>
+            <Link href="/events" onClick={() => setMenuOpen(false)}>
+              Events
+            </Link>
+            <Link href="/about" onClick={() => setMenuOpen(false)}>
+              About
+            </Link>
+          </div>
+        )}
+
+        <div className="flex items-center gap-2">
           {user?.email ? (
             <>
-              <div className="flex gap-4 mr-5">
-                <Link href="/create-shop">
-                  <Button className="rounded-full">Join Event</Button>
-                </Link>
-
+              <div className="hidden md:flex gap-4 mr-5">
                 <Link href="/user/create-event">
-                  <Button
-                    className="rounded-full border bg-white text-black hover:bg-gray-100"
-                  >
-                    Create Event
-                  </Button>
+                  <Button className="rounded-full ">Create Event</Button>
                 </Link>
               </div>
 
@@ -90,7 +120,7 @@ export default function Navbar() {
               </Button>
             </Link>
           )}
-        </nav>
+        </div>
       </div>
     </header>
   );
