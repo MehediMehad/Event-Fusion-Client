@@ -267,3 +267,23 @@ export const MOCK_REVIEWS = [
     updatedAt: '2023-11-17T14:30:00Z',
   },
 ];
+
+
+
+
+export interface FakeEventType {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  coverImage: string;
+  organizer: string;
+  organizerId: string;
+  isPrivate: boolean;
+  price: number;
+  participantsCount: number;
+  capacity?: number;
+  createdAt: string;
+  updatedAt: string;
+}
