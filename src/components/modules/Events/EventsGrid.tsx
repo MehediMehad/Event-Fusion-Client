@@ -1,28 +1,23 @@
-import { FakeEventType } from "@/lib/fakedata";
-import EventCard from "./EventCard";
+"use client";
+import { EventType } from "@/types/event";
+import EventCard from "../eventHome/UpcomingEvents/EventCard";
+import NoDataFound from "@/components/shared/NoDataFound";
 
-interface EventsGridProps {
-  events: FakeEventType[];
-  compact?: boolean;
-}
-
-export default function EventsGrid({ events, compact = false }: EventsGridProps) {
-  if (events.length === 0) {
-    return (
-      <div className="flex min-h-[200px] flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
-        <h3 className="mb-2 text-lg font-semibold">No events found</h3>
-        <p className="text-muted-foreground">
-          Try adjusting your search or filter criteria
-        </p>
-      </div>
-    );
+export default function EventsGrid({ events }: { events: EventType[] }) {
+  if (!events || events.length === 0) {
+    return <NoDataFound message="No events found matching your criteria." />;
   }
 
+
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {events.map((event) => (
-        <EventCard key={event.id} event={event} compact={compact} />
-      ))}
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {events.length === 0 ? (
+        <p>No events found.</p>
+      ) : (
+        events.map((event) => (
+          <EventCard key={event.id} event={event}/>
+        ))
+      )}
     </div>
   );
 }
