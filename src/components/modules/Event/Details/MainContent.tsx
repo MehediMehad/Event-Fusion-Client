@@ -34,13 +34,18 @@ import { toast } from "sonner";
 const MainContent = ({ event }: { event: TEventResponse }) => {
   const { user } = useUser();
   const router = useRouter();
-  const isOrganizer = user?.userId === event.metadata.organizer.id;
-
   const [isJoining, setIsJoining] = useState(false);
-  //TODO: Check if user has joined the event
+  const isOrganizer = user?.userId === event.metadata.organizer.id;
+  // ✅ Ensure this is always a boolean
+  const participationStatus = event.participation?.find(
+    (p) => p.userId === user?.userId
+  )?.status;
 
-  const hasJoined = event.participation.find((p) => p.userId === user?.userId);
-  console.log({ hasJoined });
+  const isApproved = participationStatus === "APPROVED";
+  const isRejected = participationStatus === "REJECTED";
+  const isPending = participationStatus === "PENDING";
+
+  // Check if user has joined the event
 
   const handleDeleteEvent = () => {
     router.push("/dashboard/events");
@@ -52,10 +57,6 @@ const MainContent = ({ event }: { event: TEventResponse }) => {
       return;
     }
 
-    if (hasJoined) {
-      toast("You have already joined this event.");
-      return;
-    }
     setIsJoining(true);
     const payload = {
       eventId: event.metadata.id,
@@ -64,15 +65,15 @@ const MainContent = ({ event }: { event: TEventResponse }) => {
 
     try {
       const response = await joinEvent(payload);
-      console.log({ response });
-
       if (response.success) {
         toast.success(response?.message);
+        setIsJoining(false);
 
         // Optionally refresh or redirect
         router.refresh();
       } else {
         toast.error(response?.message || "Something went wrong.");
+        setIsJoining(false);
       }
     } catch (err) {
       toast("Network Error");
@@ -176,16 +177,18 @@ const MainContent = ({ event }: { event: TEventResponse }) => {
               <Button
                 className={
                   event.metadata.registration_fee > 0
-                    ? "bg-chart-1 hover:bg-chart-1/90"
-                    : "bg-chart-2 hover:bg-chart-2/90"
+                    ? "bg-primary hover:bg-primary/90"
+                    : "bg-primary hover:bg-primary/90"
                 }
                 onClick={handleJoinEvent}
-                disabled={isJoining || hasJoined}
+                disabled={isJoining || isApproved || isRejected}
               >
                 {isJoining
                   ? "Processing..."
-                  : hasJoined
-                  ? "Already Joined"
+                  : isApproved
+                  ? "Already Registered"
+                  : isRejected
+                  ? "Your Request Was Rejected"
                   : getJoinButtonText()}
               </Button>
               <Button variant="outline" size="icon">
