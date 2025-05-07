@@ -269,9 +269,15 @@ export const MOCK_REVIEWS = [
 ];
 
 
+export interface UserType {
+  id: string;
+  name: string;
+  email: string;
+  role: 'user' | 'admin';
+  image?: string;
+}
 
-
-export interface FakeEventType {
+export interface EventType {
   id: string;
   title: string;
   description: string;
@@ -287,3 +293,39 @@ export interface FakeEventType {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ParticipantType {
+  id: string;
+  userId: string;
+  eventId: string;
+  user: UserType;
+  status: 'pending' | 'approved' | 'rejected' | 'banned';
+  paymentStatus?: 'pending' | 'completed' | 'failed';
+  paymentId?: string;
+  createdAt: string;
+}
+
+export interface InvitationType {
+  id: string;
+  eventId: string;
+  userId: string;
+  event: EventType;
+  status: 'pending' | 'accepted' | 'declined';
+  createdAt: string;
+}
+
+export interface ReviewType {
+  id: string;
+  userId: string;
+  eventId: string;
+  user: UserType;
+  rating: number;
+  comment: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type EventStatus = 'all' | 'upcoming' | 'past';
+export type EventVisibility = 'all' | 'public' | 'private';
+export type PaymentStatus = 'all' | 'free' | 'paid';
+export type ParticipantStatus = 'all' | 'pending' | 'approved' | 'rejected' | 'banned';

@@ -19,3 +19,33 @@ export type EventType = {
     invitation?: any[]; // optional
     review?: any | null; // nullable
   };
+
+
+  export interface TEventResponse {
+    metadata: Metadata
+    review: any[]
+    invitation: any[]
+    participation: any[]
+  }
+  
+  export interface Metadata {
+    id: string
+    title: string
+    date_time: string
+    venue: string
+    description: string
+    registration_fee: number
+    coverPhoto: string
+    organizer: Organizer
+    is_public: boolean
+    is_paid: boolean
+    location: string
+    createdAt: string
+  }
+  
+  export interface Organizer {
+    id: string
+    name: string
+    email: string
+    profilePhoto: string
+  }

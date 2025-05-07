@@ -31,10 +31,9 @@ const DetailsSidebar = ({ event }: { event: any }) => {
             Experienced event organizer with a focus on tech and professional
             development events.
           </p>
-          {/* TODO */}
-          {/* <Button variant="ghost" className="mt-4 w-full">
+          <Button variant="ghost" className="mt-4 w-full">
             Contact Organizer
-          </Button> */}
+          </Button>
         </CardContent>
       </Card>
 
@@ -48,15 +47,13 @@ const DetailsSidebar = ({ event }: { event: any }) => {
             </div>
           </div>
           <p className="mt-3 font-medium">{event.location}</p>
-          {/* TODO */}
-          {/* <Button variant="outline" className="mt-4 w-full">
+          <Button variant="outline" className="mt-4 w-full">
             Get Directions
-          </Button> */}
+          </Button>
         </CardContent>
       </Card>
-        
-        {/* TODO */}
-      {/* <Card>
+
+      <Card>
         <CardContent className="p-6">
           <h2 className="mb-4 text-xl font-semibold">Share Event</h2>
           <div className="flex gap-2">
@@ -114,7 +111,7 @@ const DetailsSidebar = ({ event }: { event: any }) => {
             </Button>
           </div>
         </CardContent>
-      </Card>  */}
+      </Card>
     </div>
   );
 };

@@ -1,27 +1,27 @@
 import { MOCK_EVENTS } from "@/lib/fakedata";
 import HeroSection from "@/components/modules/Event/Details/HeroSection";
-import MainContent from "@/components/modules/Event/Details/MainContent";
-import DetailsSidebar from "@/components/modules/Event/Details/DetailsSidebar";
 import EventNotFound from "@/components/modules/Event/Details/EventNotFound";
+import { getSingleEventDetails } from "@/services/Event";
+import MainContent from "@/components/modules/Event/Details/MainContent";
 
-export default function EventPage({ params }: { params: { id: string } }) {
+export default async function EventPage({ params }: { params: { id: string } }) {
   const { id } = params;
-  console.log({ id });
+  const { data: event} = await getSingleEventDetails(id);
 
-  // In a real app, fetch event by ID from API
-  const event = MOCK_EVENTS.find((e) => e.id === id);
+  console.log("🤣🤣🤣🤣",{event});
+  
   if (!event) {
     return <EventNotFound />;
   }
-
   return (
-    <div className="pb-28">
+    <div className="pb-16">
       {/* Hero section */}
       <HeroSection event={event} />
       <div className="container px-4 md:px-6 mx-auto mt-10">
         <div className="grid gap-8 md:grid-cols-3">
+          {/* Main content */}
           <MainContent event={event} />
-          <DetailsSidebar event={event} />
+          {/* <DetailsSidebar event={event} /> */}
         </div>
       </div>
     </div>

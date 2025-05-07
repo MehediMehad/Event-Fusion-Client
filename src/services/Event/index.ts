@@ -30,20 +30,6 @@ export const addEvent = async (eventData: FormData): Promise<any> => {
   }
 };
 
-export const getAllEventsDetailsPage2 = async () => {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/event/all-details`, {
-      next: {
-        tags: ["EVENT"],
-      },
-    });
-
-    return res.json();
-  } catch (error: any) {
-    return Error(error);
-  }
-};
-
 export const getAllEventsDetailsPage = async (
   filters: {
     searchTerm?: string;
@@ -77,6 +63,18 @@ export const getAllEventsDetailsPage = async (
   } catch (error: any) {
     console.error("❌ API Error:", error.message);
     return { success: false, message: error.message };
+  }
+};
+
+export const getSingleEventDetails = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/event/${id}`,
+    );
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    return Error(error.message);
   }
 };
 

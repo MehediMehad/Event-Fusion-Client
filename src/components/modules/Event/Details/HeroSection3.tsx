@@ -1,14 +1,14 @@
-import { TEventResponse, EventType } from "@/types/event";
+import { TEventResponse } from "@/types/event";
 import Image from "next/image";
 
-const HeroSection = ({ event }: { event: TEventResponse }) => {
+const HeroSection3 = ({ event }: { event: any }) => {
   console.log({event});
   
   return (
     <div className="relative h-[40vh] w-full md:h-[40vh]">
       <Image
-        src={event.metadata.coverPhoto}
-        alt={event.metadata.title}
+        src={event.coverImage}
+        alt={event.title}
         fill
         priority
         className="object-cover"
@@ -18,4 +18,4 @@ const HeroSection = ({ event }: { event: TEventResponse }) => {
   );
 };
 
-export default HeroSection;
+export default HeroSection3;
