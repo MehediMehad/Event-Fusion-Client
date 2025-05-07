@@ -13,8 +13,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/UserContext";
-import { toast } from "@/hooks/use-toast";
 import { formatCurrency, formatDate, formatTime } from "@/lib/format";
+import { joinEvent } from "@/services/Event";
 import { TEventResponse } from "@/types/event";
 import {
   Calendar,
@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const MainContent = ({ event }: { event: TEventResponse }) => {
   const { user } = useUser();
@@ -37,31 +38,52 @@ const MainContent = ({ event }: { event: TEventResponse }) => {
 
   const [isJoining, setIsJoining] = useState(false);
   //TODO: Check if user has joined the event
-  const hasJoined = false;
-  // user &&
-  // event.participation.userId.some(
-  //   (p) => p.userId === user.userId && p.status === "approved"
-  // );
+
+  const hasJoined = event.participation.find((p) => p.userId === user?.userId);
+  console.log({ hasJoined });
 
   const handleDeleteEvent = () => {
-    // In a real app, make an API call to delete the event
-    toast({
-      title: "Event Deleted",
-      description: "The event has been successfully deleted.",
-    });
     router.push("/dashboard/events");
   };
 
-  const handleJoinEvent = () => {
+  const handleJoinEvent = async () => {
     if (!user) {
       router.push("/auth/login");
       return;
+    }
+
+    if (hasJoined) {
+      toast("You have already joined this event.");
+      return;
+    }
+    setIsJoining(true);
+    const payload = {
+      eventId: event.metadata.id,
+      payment_status: "FREE",
+    };
+
+    try {
+      const response = await joinEvent(payload);
+      console.log({ response });
+
+      if (response.success) {
+        toast.success(response?.message);
+
+        // Optionally refresh or redirect
+        router.refresh();
+      } else {
+        toast.error(response?.message || "Something went wrong.");
+      }
+    } catch (err) {
+      toast("Network Error");
+    } finally {
+      setIsJoining(false);
     }
   };
 
   const getJoinButtonText = () => {
     if (!event.metadata.is_public && event.metadata.registration_fee > 0) {
-      return "Request & Pay";
+      return `Request & Pay ${formatCurrency(event.metadata.registration_fee)}`;
     } else if (!event.metadata.is_public) {
       return "Request to Join";
     } else if (event.metadata.registration_fee > 0) {

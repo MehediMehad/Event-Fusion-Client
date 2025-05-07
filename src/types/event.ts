@@ -25,7 +25,7 @@ export type EventType = {
     metadata: Metadata
     review: any[]
     invitation: any[]
-    participation: any[]
+    participation: participation[]
   }
   
   export interface Metadata {
@@ -49,3 +49,14 @@ export type EventType = {
     email: string
     profilePhoto: string
   }
+
+  export interface participation {
+    id: string
+    userId: string
+    eventId: string
+    status: string
+    payment_status: string
+    paymentId: any
+    joined_at: string
+  }
+  

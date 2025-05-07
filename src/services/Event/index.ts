@@ -78,7 +78,6 @@ export const getSingleEventDetails = async (id: string) => {
   }
 };
 
-
 export const getAllUpcomingEvent = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/event`, {
@@ -90,5 +89,25 @@ export const getAllUpcomingEvent = async () => {
     return res.json();
   } catch (error: any) {
     return Error(error);
+  }
+};
+
+
+// utils/api/joinEvent.ts
+export const joinEvent = async (payload: { eventId: string; payment_status: string }) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/event/join-event`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: (await cookies()).get("accessToken")!.value,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return { success: false, message: error.message };
   }
 };
