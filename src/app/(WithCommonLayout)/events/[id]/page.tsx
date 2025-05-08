@@ -8,8 +8,6 @@ export default async function EventPage({ params }: { params: { id: string } }) 
   const { id } = params;
   const { data: event} = await getSingleEventDetails(id);
 
-  console.log("🤣🤣🤣🤣",{event});
-  
   if (!event) {
     return <EventNotFound />;
   }

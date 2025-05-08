@@ -1,15 +1,4 @@
 "use client";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/UserContext";
@@ -20,16 +9,15 @@ import {
   Calendar,
   Clock,
   DollarSign,
-  Edit,
   Heart,
   Lock,
   MapPin,
   Share,
-  Trash,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import ManageEvent from "./Organizer/ManageEvent";
 
 const MainContent = ({ event }: { event: TEventResponse }) => {
   const { user } = useUser();
@@ -43,14 +31,8 @@ const MainContent = ({ event }: { event: TEventResponse }) => {
 
   const isApproved = participationStatus === "APPROVED";
   const isRejected = participationStatus === "REJECTED";
-  const isPending = participationStatus === "PENDING";
 
   // Check if user has joined the event
-
-  const handleDeleteEvent = () => {
-    router.push("/dashboard/events");
-  };
-
   const handleJoinEvent = async () => {
     if (!user) {
       router.push("/auth/login");
@@ -98,17 +80,29 @@ const MainContent = ({ event }: { event: TEventResponse }) => {
     <div className="md:col-span-2">
       <div className="mb-6 mt-[-20px] rounded-lg bg-card p-6 border">
         <div className="mb-4 flex flex-wrap gap-2">
-          {!event.metadata.is_public && (
-            <Badge variant="outline" className="gap-1">
-              <Lock className="h-3 w-3" />
-              <span>Private</span>
-            </Badge>
+          {!event.metadata.is_public && event.metadata.registration_fee > 0 && (
+            <>
+              <Badge variant="outline" className="gap-1">
+                <Lock className="h-3 w-3" />
+                <span>Private</span>
+              </Badge>
+              <Badge variant="outline" className="gap-1">
+                <Lock className="h-3 w-3" />
+                <span>{event.metadata.registration_fee}</span>
+              </Badge>
+            </>
           )}
-          {event.metadata.registration_fee > 0 ? (
-            <Badge variant="outline" className="gap-1">
-              <DollarSign className="h-3 w-3" />
-              <span>{event.metadata.registration_fee}</span>
-            </Badge>
+          {event.metadata.is_public && event.metadata.registration_fee > 0 ? (
+            <>
+              <Badge variant="outline" className="gap-1">
+                <DollarSign className="h-3 w-3" />
+                <span>Public</span>
+              </Badge>
+              <Badge variant="outline" className="gap-1">
+                <DollarSign className="h-3 w-3" />
+                <span>{event.metadata.registration_fee}</span>
+              </Badge>
+            </>
           ) : (
             <Badge variant="outline">Free</Badge>
           )}
@@ -118,60 +112,35 @@ const MainContent = ({ event }: { event: TEventResponse }) => {
           {event.metadata.title}
         </h1>
 
-        <div className="mb-6 flex flex-wrap gap-4 text-muted-foreground">
-          <div className="flex items-center gap-1.5">
-            <Calendar className="h-5 w-5" />
-            <span>{formatDate(event.metadata.date_time)}</span>
+        <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex items-center gap-2 rounded-md bg-muted p-3">
+            <Calendar className="h-5 w-5 text-primary" />
+            <div>
+              <p className="text-sm font-medium">Date</p>
+              <p className="text-sm">{formatDate(event.metadata.date_time)}</p>
+            </div>
           </div>
-          <div className="flex items-center gap-1.5">
-            <Clock className="h-5 w-5" />
-            <span>{formatTime(event.metadata.date_time)}</span>
+
+          <div className="flex items-center gap-2 rounded-md bg-muted p-3">
+            <Clock className="h-5 w-5 text-primary" />
+            <div>
+              <p className="text-sm font-medium">Time</p>
+              <p className="text-sm">{formatTime(event.metadata.date_time)}</p>
+            </div>
           </div>
-          <div className="flex items-center gap-1.5">
-            <MapPin className="h-5 w-5" />
-            <span>{event.metadata.location}</span>
+
+          <div className="flex items-center gap-2 rounded-md bg-muted p-3">
+            <MapPin className="h-5 w-5 text-primary" />
+            <div>
+              <p className="text-sm font-medium">Location</p>
+              <p className="text-sm">{event.metadata.location}</p>
+            </div>
           </div>
         </div>
 
         <div className="flex flex-wrap gap-3">
           {isOrganizer ? (
-            <>
-              <Button
-                className="bg-chart-2 hover:bg-chart-2/90"
-                onClick={() =>
-                  router.push(`/dashboard/events/${event.metadata.id}/edit`)
-                }
-              >
-                <Edit className="mr-2 h-4 w-4" />
-                Edit Event
-              </Button>
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="destructive">
-                    <Trash className="mr-2 h-4 w-4" />
-                    Delete Event
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Delete Event</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Are you sure you want to delete this event? This action
-                      cannot be undone.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={handleDeleteEvent}
-                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                    >
-                      Delete
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </>
+            <ManageEvent event={event} />
           ) : (
             <>
               <Button

@@ -93,7 +93,30 @@ export const getAllUpcomingEvent = async () => {
 };
 
 
-// utils/api/joinEvent.ts
+export const updateEvent = async (
+  eventData: FormData,
+  eventId: string
+): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/event/${eventId}`,
+      {
+        method: "PUT",
+        body: eventData,
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+        },
+      }
+    );
+    revalidateTag("EVENT");
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+
+
 export const joinEvent = async (payload: { eventId: string; payment_status: string }) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/event/join-event`, {
