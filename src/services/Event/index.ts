@@ -78,6 +78,18 @@ export const getSingleEventDetails = async (id: string) => {
   }
 };
 
+export const getNonParticipants = async (eventId: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/user/non-participants/${eventId}`,
+    );
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    return Error(error.message);
+  }
+};
+
 export const getAllUpcomingEvent = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/event`, {

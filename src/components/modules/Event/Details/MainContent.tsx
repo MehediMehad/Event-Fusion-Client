@@ -5,19 +5,13 @@ import { useUser } from "@/context/UserContext";
 import { formatCurrency, formatDate, formatTime } from "@/lib/format";
 import { joinEvent } from "@/services/Event";
 import { TEventResponse } from "@/types/event";
-import {
-  Calendar,
-  Clock,
-  DollarSign,
-  Heart,
-  Lock,
-  MapPin,
-  Share,
-} from "lucide-react";
+import { TbUserShare } from "react-icons/tb";
+import { Calendar, Clock, DollarSign, Lock, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import ManageEvent from "./Organizer/ManageEvent";
+import InviteUsersModal from "../InviteUser/InviteUsersModal";
 
 const MainContent = ({ event }: { event: TEventResponse }) => {
   const { user } = useUser();
@@ -160,12 +154,10 @@ const MainContent = ({ event }: { event: TEventResponse }) => {
                   ? "Your Request Was Rejected"
                   : getJoinButtonText()}
               </Button>
-              <Button variant="outline" size="icon">
+              {/* <Button variant="outline" size="icon">
                 <Heart className="h-5 w-5" />
-              </Button>
-              <Button variant="outline" size="icon">
-                <Share className="h-5 w-5" />
-              </Button>
+              </Button> */}
+              <InviteUsersModal eventId={event.metadata.id} />
             </>
           )}
         </div>
