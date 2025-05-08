@@ -1,5 +1,4 @@
 "use client";
-import UpcomingEvents from "@/components/modules/eventHome/UpcomingEvents";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,16 +11,25 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { deleteEvent } from "@/services/Event";
 import { TEventResponse } from "@/types/event";
 import { Edit, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { UpdateEvents } from "./UpdateEvents";
+import { toast } from "sonner";
 
 const ManageEvent = ({ event }: { event: TEventResponse }) => {
   const router = useRouter();
 
-  const handleDeleteEvent = () => {
-    router.push("/dashboard/events");
+  const handleDeleteEvent = async () => {
+    const result = await deleteEvent(event.metadata.id);
+
+    if (result.success) {
+      toast.success(result.message);
+      router.push("/events");
+      router.refresh(); // Refresh page to remove deleted event
+    } else {
+      toast.error(result.message);
+    }
   };
 
   return (
@@ -35,8 +43,7 @@ const ManageEvent = ({ event }: { event: TEventResponse }) => {
         <Edit className="mr-2 h-4 w-4" />
         Edit Event
       </Button>
-      {/* <UpdateEvents event={event}/> */}
-      {/* <UpdateEvents event={event}  /> */}
+
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button variant="destructive">
@@ -48,8 +55,7 @@ const ManageEvent = ({ event }: { event: TEventResponse }) => {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Event</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this event? This action cannot be
-              undone.
+              Are you sure you want to delete this event permanently?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

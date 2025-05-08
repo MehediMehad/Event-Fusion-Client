@@ -115,8 +115,6 @@ export const updateEvent = async (
   }
 };
 
-
-
 export const joinEvent = async (payload: { eventId: string; payment_status: string }) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/event/join-event`, {
@@ -132,5 +130,24 @@ export const joinEvent = async (payload: { eventId: string; payment_status: stri
     return result;
   } catch (error: any) {
     return { success: false, message: error.message };
+  }
+};
+
+// delete event
+export const deleteEvent = async (eventId: string): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/event/${eventId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+        },
+      }
+    );
+    revalidateTag("EVENT");
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
   }
 };
