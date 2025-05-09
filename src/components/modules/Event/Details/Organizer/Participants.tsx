@@ -19,7 +19,6 @@ const Participants = ({ event }: { event: TEventResponse }) => {
   const router = useRouter();
   const { user } = useUser();
   const isOrganizer = user?.userId === event.metadata.organizer.id;
-  console.log(event.participation);
 
   // Helper functions
   const getPendingParticipants = () => {

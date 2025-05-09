@@ -3,24 +3,11 @@
 import React from "react";
 import { TEventResponse } from "@/types/event";
 import { useUser } from "@/context/UserContext";
-import { SeparatorHorizontal, Star, Trash } from "lucide-react";
+import { Star } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import axios from "axios";
-import { inviteUserAction } from "@/services/Invitation";
-import { getReview, SendReviewAction } from "@/services/Review";
+
+import { SendReviewAction } from "@/services/Review";
 import { toast } from "sonner";
 import ReviewsList from "./ReviewsList";
 

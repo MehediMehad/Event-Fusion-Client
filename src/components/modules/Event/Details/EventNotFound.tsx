@@ -10,7 +10,7 @@ const EventNotFound = () => {
       <AlertCircle className="mb-4 h-16 w-16 text-muted-foreground" />
       <h1 className="text-3xl font-bold">Event Not Found</h1>
       <p className="mt-2 text-muted-foreground">
-        The event you're looking for doesn't exist or has been removed.
+        The event you&apos;re looking for doesn&apos;t exist or has been removed.
       </p>
       <Button className="mt-6" onClick={() => router.push("/events")}>
         Explore Events
@@ -20,3 +20,4 @@ const EventNotFound = () => {
 };
 
 export default EventNotFound;
+

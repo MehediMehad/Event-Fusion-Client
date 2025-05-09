@@ -17,7 +17,6 @@ const EventInfo = ({ event }: { event: TEventResponse }) => {
   const getPendingParticipants = () => {
     return event.participation.filter((p) => p.status === PSTATUS.PENDING);
   };
-  console.log(getPendingParticipants());
   
 
   return (

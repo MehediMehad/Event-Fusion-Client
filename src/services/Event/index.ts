@@ -44,7 +44,6 @@ export const getAllEventsDetailsPage = async (
 
   if (options.page) params.append("page", options.page);
   if (options.limit) params.append("limit", options.limit);
-
   if (filters.filterData) params.append("filterData", filters.filterData);
   if (filters.searchTerm) params.append("searchTerm", filters.searchTerm);
 
@@ -58,13 +57,18 @@ export const getAllEventsDetailsPage = async (
       }
     );
 
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
     const data = await res.json();
-    return data;
+    return data ?? { success: false, message: "No data received" };
   } catch (error: any) {
     console.error("❌ API Error:", error.message);
     return { success: false, message: error.message };
   }
 };
+
 
 export const getSingleEventDetails = async (id: string) => {
   try {

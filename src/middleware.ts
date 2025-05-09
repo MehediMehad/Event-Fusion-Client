@@ -14,7 +14,6 @@ export const middleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl;
 
   const userInfo = await getCurrentUser();
-  console.log(userInfo);
 
   // অথবা রোলকে লোয়ারকেসে নরমালাইজ করুন
   const normalizedRole = userInfo?.role.toLowerCase() as Role;

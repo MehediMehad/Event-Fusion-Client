@@ -1,12 +1,13 @@
-import { MOCK_EVENTS } from "@/lib/fakedata";
 import HeroSection from "@/components/modules/Event/Details/HeroSection";
 import EventNotFound from "@/components/modules/Event/Details/EventNotFound";
 import { getSingleEventDetails } from "@/services/Event";
 import MainContent from "@/components/modules/Event/Details/MainContent";
 
-export default async function EventPage({ params }: { params: { id: string } }) {
-  const { id } = params;
-  const { data: event} = await getSingleEventDetails(id);
+export default async function EventPage({ params }: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const { data: event } = await getSingleEventDetails(id);
   if (!event) {
     return <EventNotFound />;
   }

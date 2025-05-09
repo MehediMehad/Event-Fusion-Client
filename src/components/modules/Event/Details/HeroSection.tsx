@@ -2,7 +2,6 @@ import { TEventResponse, EventType } from "@/types/event";
 import Image from "next/image";
 
 const HeroSection = ({ event }: { event: TEventResponse }) => {
-  console.log({event});
   
   return (
     <div className="relative h-[40vh] w-full md:h-[40vh]">

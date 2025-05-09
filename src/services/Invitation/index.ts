@@ -28,7 +28,7 @@ export const inviteUserAction = async ({
   }
 };
 
-export const geyMyNotification = async () => {
+export const getMyNotification = async () => {
   try {
     const token = (await cookies()).get("accessToken")?.value;
 

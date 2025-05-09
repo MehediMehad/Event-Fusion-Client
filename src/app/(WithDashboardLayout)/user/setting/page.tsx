@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -13,11 +11,8 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import { Separator } from '@/components/ui/separator';
 import { useUser } from '@/context/UserContext';
 import { toast } from 'sonner';
 
@@ -35,7 +30,6 @@ const settingsSchema = z.object({
 type SettingsFormValues = z.infer<typeof settingsSchema>;
 
 export default function DashboardSettingsPage() {
-  const router = useRouter();
   const { user } = useUser()
 
 
@@ -52,6 +46,8 @@ export default function DashboardSettingsPage() {
 
 
   const onSubmit = (data: SettingsFormValues) => {
+    console.log(data);
+    
     // In a real app, make API call to update settings
     toast.success("Your settings have been successfully updated.");
   };
