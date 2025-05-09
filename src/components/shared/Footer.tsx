@@ -1,63 +1,100 @@
-import Logo from "@/assets/svgs/Logo";
-import { Facebook, Instagram, X } from "lucide-react";
-import Link from "next/link";
+import Link from "next/link"
+import { Facebook, Instagram, Twitter } from "lucide-react"
 
 const Footer = () => {
-  const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/shop", label: "Shop" },
-    { href: "/products", label: "App Products" },
-    { href: "/about", label: "About Us" },
-    { href: "/testimonial", label: "Testimonial" },
-    { href: "/blogs", label: "Blogs" },
-    { href: "/contact", label: "Contact Us" },
-  ];
-
-  const socialLinks = [
-    { href: "#", icon: Facebook },
-    { href: "#", icon: Instagram },
-    { href: "#", icon: X },
-  ];
   return (
-    <footer className="bg-white border-t border-gray-200 py-24">
-      <div className="max-w-6xl mx-auto px-4 text-center">
-        <div className="flex flex-col items-center mb-6">
-          <div className="flex items-center space-x-2">
-            <h1 className="text-2xl font-black flex items-center">
-              <Logo />
-            </h1>
-          </div>
-          <p className="text-gray-600 mt-3 w-1/2 text-xs leading-6">
-            Save big this Black Friday with unbeatable deals on tech, home
-            essentials, fashion, and more! Limited stock.
-          </p>
-        </div>
-
-        <hr />
-        <ul className="flex justify-center space-x-6 text-sm text-gray-800 font-medium my-4">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link href={link.href} className="hover:text-purple-600">
-                {link.label}
+    <footer className="w-full border-t bg-background">
+      <div className="container px-4 md:px-6 py-12 mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Event Planner</h3>
+            <p className="text-sm text-muted-foreground">
+              Create, discover, and join amazing events with our secure and feature-rich platform.
+            </p>
+            <div className="flex space-x-4">
+              <Link href="#" className="text-muted-foreground hover:text-foreground">
+                <Facebook className="h-5 w-5" />
+                <span className="sr-only">Facebook</span>
               </Link>
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex justify-center space-x-4">
-          {socialLinks.map(({ href, icon: Icon }, index) => (
-            <Link
-              href={href}
-              key={index}
-              className="text-gray-600 hover:text-purple-600"
-            >
-              <Icon className="w-5 h-5" />
-            </Link>
-          ))}
+              <Link href="#" className="text-muted-foreground hover:text-foreground">
+                <Twitter className="h-5 w-5" />
+                <span className="sr-only">Twitter</span>
+              </Link>
+              <Link href="#" className="text-muted-foreground hover:text-foreground">
+                <Instagram className="h-5 w-5" />
+                <span className="sr-only">Instagram</span>
+              </Link>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Quick Links</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/" className="text-muted-foreground hover:text-foreground">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/events" className="text-muted-foreground hover:text-foreground">
+                  Events
+                </Link>
+              </li>
+              <li>
+                <Link href="/user/dashboard" className="text-muted-foreground hover:text-foreground">
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-muted-foreground hover:text-foreground">
+                  About
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Legal</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/privacy-policy" className="text-muted-foreground hover:text-foreground">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="text-muted-foreground hover:text-foreground">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/cookies" className="text-muted-foreground hover:text-foreground">
+                  Cookie Policy
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Contact</h3>
+            <ul className="space-y-2 text-sm">
+              <li className="text-muted-foreground">123 Event Street, Suite 100</li>
+              <li className="text-muted-foreground">San Francisco, CA 94103</li>
+              <li>
+                <Link href="mailto:info@eventplanner.com" className="text-muted-foreground hover:text-foreground">
+                  info@eventplanner.com
+                </Link>
+              </li>
+              <li>
+                <Link href="tel:+1234567890" className="text-muted-foreground hover:text-foreground">
+                  +1 (234) 567-890
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
+          <p>© {new Date().getFullYear()} Event Planner. All rights reserved.</p>
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
 export default Footer;

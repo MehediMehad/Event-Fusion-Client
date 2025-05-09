@@ -62,6 +62,11 @@ const data = {
       url: "/user/invitations",
       icon: Mail,
     },
+    {
+      title: "Setting",
+      url: "/user/setting",
+      icon: Settings,
+    },
     // {
     //   title: "Shop",
     //   url: "/user/shop/products",
@@ -86,17 +91,17 @@ const data = {
     //   ],
     // },
 
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings,
-      items: [
-        {
-          title: "Profile",
-          url: "/profile",
-        },
-      ],
-    },
+    // {
+    //   title: "Settings",
+    //   url: "#",
+    //   icon: Settings,
+    //   items: [
+    //     {
+    //       title: "Profile",
+    //       url: "/profile",
+    //     },
+    //   ],
+    // },
   ],
   navSecondary: [
     {
