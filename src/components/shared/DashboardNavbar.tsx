@@ -18,7 +18,7 @@ import { protectedRoutes } from "@/contacts";
 import Logo from "./Logo";
 import { useState } from "react";
 
-export default function Navbar() {
+export default function DashboardNavbar() {
   const { user, setIsLoading } = useUser();
   const pathname = usePathname();
   const router = useRouter();
@@ -37,7 +37,7 @@ export default function Navbar() {
     <header className="border-b bg-background w-full sticky top-0 z-[99999]">
       <div className="container flex justify-between items-center mx-auto h-16 px-5">
         <Link href="/">
-          <h1 className="text-2xl font-black flex items-center">
+          <h1 className="text-2xl font-black flex items-center sr-only">
             <Logo />
           </h1>
         </Link>
@@ -82,11 +82,11 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           {user?.email ? (
             <>
-              <div className="hidden md:flex gap-4 mr-5">
+              {/* <div className="hidden md:flex gap-4 mr-5">
                 <Link href="/user/create-event">
                   <Button className="rounded-full ">Create Event</Button>
                 </Link>
-              </div>
+              </div> */}
 
               <DropdownMenu>
                 <DropdownMenuTrigger>

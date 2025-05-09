@@ -78,6 +78,37 @@ export const getSingleEventDetails = async (id: string) => {
   }
 };
 
+export const getMyEvent = async () => {
+  try {
+    const token = (await cookies()).get("accessToken")?.value;
+
+    if (!token) {
+      throw new Error("No access token found");
+    }
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/event/my-events`,
+      {
+        headers: {
+          Authorization: token,
+        },
+        // Optional: cache control
+        cache: "no-store", // or "force-cache" based on your need
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch events");
+    }
+
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    console.error("Error fetching my events:", error.message);
+    return { error: error.message || "Something went wrong" };
+  }
+};
+
 export const getNonParticipants = async (eventId: string) => {
   try {
     const res = await fetch(

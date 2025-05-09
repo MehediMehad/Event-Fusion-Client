@@ -9,6 +9,7 @@ import {
   PieChart,
   Send,
   Settings,
+  SquareTerminal,
 } from "lucide-react";
 
 import {
@@ -29,18 +30,17 @@ import { BiCalendarEvent } from "react-icons/bi";
 
 const data = {
   navMain: [
-    // {
-    //   title: "Dashboard",
-    //   url: "/user/dashboard",
-    //   icon: SquareTerminal,
-    //   isActive: true,
-    // },
     {
-      title: "Create Event",
-      url: "/user/create-event",
-      icon: BiCalendarEvent,
+      title: "Dashboard",
+      url: "/user/dashboard",
+      icon: SquareTerminal,
       isActive: true,
     },
+    // {
+    //   title: "Create Event",
+    //   url: "/user/create-event",
+    //   icon: BiCalendarEvent,
+    // },
     {
       title: "My Events",
       url: "/user/my-events",

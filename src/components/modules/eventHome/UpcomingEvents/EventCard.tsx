@@ -101,7 +101,7 @@ export default function EventCard({ event, compact = false }: EventCardProps) {
               <span>20 attendees</span>
             </div>
             <p className="text-xs font-medium text-base/90 transition-colors">
-              Hosted by {event.organizer.name}
+              Hosted by {event.organizer?.name}
             </p>
           </div>
         </CardFooter>

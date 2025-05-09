@@ -1,13 +1,5 @@
 import { AppSidebar } from "@/components/modules/dashboard/sidebar/app-sidebar";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
+import DashboardNavbar from "@/components/shared/DashboardNavbar";
 import {
   SidebarInset,
   SidebarProvider,
@@ -23,12 +15,13 @@ export default function DashboardLayout({
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+        <header className="flex shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4 ">
             <SidebarTrigger className="-ml-1 " />
           </div>
+          <DashboardNavbar/>
         </header>
-        <div className="p-4 pt-0 min-h-screen">{children}</div>
+        <div className="p-0 pt-0 min-h-screen">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );
