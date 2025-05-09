@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Facebook, Instagram, Twitter } from "lucide-react"
+import Logo from "./Logo";
 
 const Footer = () => {
   return (
@@ -7,7 +8,10 @@ const Footer = () => {
       <div className="container px-4 md:px-6 py-12 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Event Planner</h3>
+            {/* <h3 className="text-lg font-semibold">Event Planner</h3> */}
+            <div className="flex justify-start ">
+            <Logo/>
+            </div>
             <p className="text-sm text-muted-foreground">
               Create, discover, and join amazing events with our secure and feature-rich platform.
             </p>
@@ -90,7 +94,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Event Planner. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Event Fusion. All rights reserved.</p>
         </div>
       </div>
     </footer>

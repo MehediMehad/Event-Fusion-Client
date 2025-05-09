@@ -4,6 +4,7 @@ import HeroSection from "./HeroSection";
 import UpcomingEvents from "./UpcomingEvents";
 import { EventType } from "@/types/event";
 import { useUser } from "@/context/UserContext";
+import HowItWorksSection from "./HowItWorksSection";
 
 const HomeOverview = ({ events }: { events: EventType[] }) => {
   const { user } = useUser();
@@ -24,6 +25,7 @@ const HomeOverview = ({ events }: { events: EventType[] }) => {
       <NMContainer>
         <UpcomingEvents top9Events={top9Events || []} />
       </NMContainer>
+      <HowItWorksSection/>
     </div>
   );
 };

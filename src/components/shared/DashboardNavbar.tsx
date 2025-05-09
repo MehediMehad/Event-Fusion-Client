@@ -81,11 +81,11 @@ export default function DashboardNavbar() {
         <div className="flex items-center gap-2">
           {user?.email ? (
             <>
-              {/* <div className="hidden md:flex gap-4 mr-5">
+              <div className="hidden md:flex gap-4 mr-5">
                 <Link href="/user/create-event">
                   <Button className="rounded-full ">Create Event</Button>
                 </Link>
-              </div> */}
+              </div>
 
               <DropdownMenu>
                 <DropdownMenuTrigger>
