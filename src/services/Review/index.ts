@@ -29,3 +29,20 @@ export const SendReviewAction = async ({
     return Error(error);
   }
 };
+
+export const getReview = async (eventId: string) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/review/${eventId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: (await cookies()).get("accessToken")!.value,
+        'Content-Type': 'application/json',
+      },
+      next: { revalidate: 60 },
+    });
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    return Error(error.message);
+  }
+};

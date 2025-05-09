@@ -23,7 +23,7 @@ export type EventType = {
 
   export interface TEventResponse {
     metadata: Metadata
-    review: any[]
+    review: Review[]
     invitation: any[]
     participation: participation[]
   }
@@ -60,3 +60,19 @@ export type EventType = {
     joined_at: string
   }
   
+interface Review {
+    id: string
+    userId: string
+    eventId: string
+    rating: number
+    comment: string
+    created_at: string
+    updated_at: string
+    user: User
+  }
+
+interface User {
+    id: string
+    name: string
+    profilePhoto: string
+  }

@@ -7,6 +7,7 @@ import { useUser } from "@/context/UserContext";
 import Participants from "./Participants";
 import Reviews from "./Reviews";
 import { PSTATUS } from "../../CreateEvent/EventForm/utils";
+import { TReviewData } from "@/types/review";
 
 const EventInfo = ({ event }: { event: TEventResponse }) => {
   const { user } = useUser();
@@ -39,7 +40,7 @@ const EventInfo = ({ event }: { event: TEventResponse }) => {
       </TabsContent>
 
       <TabsContent value="reviews" className="mt-6">
-        <Reviews event={event} />
+        <Reviews event={event}/>
       </TabsContent>
     </Tabs>
     </div>

@@ -1,8 +1,9 @@
 import { TEventResponse } from "@/types/event";
 import TopSession from "./Organizer/TopSession";
 import EventInfo from "./Organizer/EventInfo";
+import { TReviewData } from "@/types/review";
 
-const MainContent = ({ event }: { event: TEventResponse }) => {
+const MainContent = ({ event }: { event: TEventResponse,}) => {
   return (
     <div>
       <div className="md:col-span-2">

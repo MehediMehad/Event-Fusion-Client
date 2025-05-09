@@ -7,7 +7,6 @@ import MainContent from "@/components/modules/Event/Details/MainContent";
 export default async function EventPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const { data: event} = await getSingleEventDetails(id);
-
   if (!event) {
     return <EventNotFound />;
   }
