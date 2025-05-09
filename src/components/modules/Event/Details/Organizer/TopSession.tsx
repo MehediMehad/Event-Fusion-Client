@@ -168,7 +168,7 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
                   ? "Your Request Was Rejected"
                   : getJoinButtonText()}
               </Button>
-              <InviteUsersModal eventId={event.metadata.id} />
+              <InviteUsersModal event={event} eventId={event.metadata.id} />
             </>
           )}
         </div>

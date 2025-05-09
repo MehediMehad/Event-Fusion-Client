@@ -104,7 +104,7 @@ const Reviews = ({ event }: { event: TEventResponse }) => {
 
       {/* Review Form */}
       {/* {isPastEvent && hasJoined && !userReview && ( */}
-      {user && (
+      {user && !isOrganizer && hasJoined &&(
         <div className="mb-6 space-y-4">
           <div className="flex items-center gap-2">
             {[1, 2, 3, 4, 5].map((star) => (

@@ -13,6 +13,8 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { getNonParticipants } from "@/services/Event";
 import { inviteUserAction } from "@/services/Invitation";
+import { useUser } from "@/context/UserContext";
+import { TEventResponse } from "@/types/event";
 
 type TNonParticipant = {
   id: string;
@@ -21,11 +23,19 @@ type TNonParticipant = {
   profilePhoto?: string;
 };
 
-export default function InviteUsersModal({ eventId }: { eventId: string }) {
+export default function InviteUsersModal({
+  event,
+  eventId,
+}: {
+  event: TEventResponse;
+  eventId: string;
+}) {
   const [open, setOpen] = useState(false);
+  const { user } = useUser();
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<TNonParticipant[]>([]);
   const [invitedUserIds, setInvitedUserIds] = useState<string[]>([]);
+  const filteredData = users.filter((u) => u.id !== user?.userId);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -73,11 +83,11 @@ export default function InviteUsersModal({ eventId }: { eventId: string }) {
         </DialogHeader>
         {loading ? (
           <p>Loading users...</p>
-        ) : users.length === 0 ? (
+        ) : filteredData.length === 0 ? (
           <p>No users available to invite.</p>
         ) : (
           <div className="space-y-4 max-h-[400px] overflow-y-auto">
-            {users.map((user) => {
+            {filteredData.map((user) => {
               const isInvited = invitedUserIds.includes(user.id);
               return (
                 <div
