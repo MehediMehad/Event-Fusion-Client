@@ -101,7 +101,7 @@ export default function DashboardNavbar() {
                     <Link href={`/${userRole}/dashboard`}>Dashboard</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Link href={`/${userRole}/my-event`}>My Event</Link>
+                    <Link href={`/${userRole}/my-events`}>My Event</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Link href={`/${userRole}/invitations`}>Invitations</Link>

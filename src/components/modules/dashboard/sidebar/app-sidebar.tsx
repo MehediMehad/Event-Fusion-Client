@@ -27,13 +27,24 @@ import Link from "next/link";
 import Logo from "@/assets/svgs/Logo";
 import { BiCalendarEvent } from "react-icons/bi";
 
+import {
+  LayoutDashboard,
+  CalendarDays,
+  Mail,
+  UserCircle,
+  LogOut,
+  Users,
+  FileText,
+  RefreshCw,
+} from 'lucide-react';
+
 
 const data = {
   navMain: [
     {
       title: "Dashboard",
       url: "/user/dashboard",
-      icon: SquareTerminal,
+      icon: LayoutDashboard,
       isActive: true,
     },
     // {
@@ -44,31 +55,36 @@ const data = {
     {
       title: "My Events",
       url: "/user/my-events",
-      icon: BiCalendarEvent,
+      icon: CalendarDays,
     },
     {
-      title: "Shop",
-      url: "/user/shop/products",
-      icon: Bot,
-      items: [
-        {
-          title: "Manage Products",
-          url: "/user/shop/products",
-        },
-        {
-          title: "Manage Categories",
-          url: "/user/shop/category",
-        },
-        {
-          title: "Manage Brands",
-          url: "/user/shop/brand",
-        },
-        {
-          title: "Manage Coupon",
-          url: "/user/shop/manage-coupon",
-        },
-      ],
+      title: "Invitations",
+      url: "/user/invitations",
+      icon: Mail,
     },
+    // {
+    //   title: "Shop",
+    //   url: "/user/shop/products",
+    //   icon: Bot,
+    //   items: [
+    //     {
+    //       title: "Manage Products",
+    //       url: "/user/shop/products",
+    //     },
+    //     {
+    //       title: "Manage Categories",
+    //       url: "/user/shop/category",
+    //     },
+    //     {
+    //       title: "Manage Brands",
+    //       url: "/user/shop/brand",
+    //     },
+    //     {
+    //       title: "Manage Coupon",
+    //       url: "/user/shop/manage-coupon",
+    //     },
+    //   ],
+    // },
 
     {
       title: "Settings",
@@ -132,9 +148,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
-      <SidebarFooter>
+      {/* <SidebarFooter>
         <NavUser />
-      </SidebarFooter>
+      </SidebarFooter> */}
     </Sidebar>
   );
 }
