@@ -24,42 +24,47 @@ export default function EventCard({ event, compact = false }: EventCardProps) {
           />
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-black/10 to-transparent"></div>
-          {/* Badges */}
-          <div className="absolute right-2 top-2 flex gap-1">
-            {event.is_public !== undefined && (
-              <Badge
-                variant="secondary"
-                className="gap-1 bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 transition-all"
-              >
-                {event.is_public ? (
-                  <>
-                    <Lock className="h-3 w-3" /> Public
-                  </>
-                ) : (
-                  <>
-                    <Lock className="h-3 w-3" /> Private
-                  </>
-                )}
-              </Badge>
-            )}
+        {/* Badges */}
+        <div className="absolute right-2 top-2 flex gap-1">
+          {event.is_public !== undefined && (
             <Badge
               variant="secondary"
               className={`gap-1 ${
-                event.registration_fee > 0
-                  ? "bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30"
-                  : "bg-green-500/20 text-green-300 border border-green-500/30"
-              } transition-all`}
+                event.is_public
+                  ? "bg-green-100 text-green-700 border border-green-300 hover:bg-green-200"
+                  : "bg-red-100 text-red-700 border border-red-300 hover:bg-red-200"
+              } backdrop-blur-md transition-all`}
             >
-              {event.registration_fee > 0 ? (
+              {event.is_public ? (
                 <>
-                  <DollarSign className="h-3 w-3" />$
-                  {event.registration_fee.toFixed(2)}
+                  <Lock className="h-3 w-3" /> Public
                 </>
               ) : (
-                "Free"
+                <>
+                  <Lock className="h-3 w-3" /> Private
+                </>
               )}
             </Badge>
-          </div>
+          )}
+          <Badge
+            variant="secondary"
+            className={`gap-1 ${
+              event.registration_fee > 0
+                ? "bg-yellow-100 text-yellow-700 border border-yellow-300 hover:bg-yellow-200"
+                : "bg-green-100 text-green-700 border border-green-300 hover:bg-green-200"
+            } backdrop-blur-md transition-all`}
+          >
+            {event.registration_fee > 0 ? (
+              <>
+                <DollarSign className="h-3 w-3" />$
+                {event.registration_fee.toFixed(2)}
+              </>
+            ) : (
+              "Free"
+            )}
+          </Badge>
+        </div>
+
         </div>
         <CardContent className={compact ? "p-3" : "p-5"}>
           <h3

@@ -72,37 +72,52 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
   return (
     <div className="w-[60%]">
       <div className="mb-6 mt-[-20px] rounded-lg bg-card p-6 border">
-        <div className="mb-4 flex flex-wrap gap-2">
-          {!event.metadata.is_public && event.metadata.registration_fee > 0 && (
-            <>
-              <Badge variant="outline" className="gap-1">
-                <Lock className="h-3 w-3" />
-                <span>Private</span>
-              </Badge>
-              <Badge variant="outline" className="gap-1">
-                <Lock className="h-3 w-3" />
-                <span>{event.metadata.registration_fee}</span>
-              </Badge>
-            </>
+        {/* Badges */}
+        <div className="flex gap-1">
+          {event.metadata.is_public !== undefined && (
+            <Badge
+              variant="secondary"
+              className={`gap-1 ${
+                event.metadata.is_public
+                  ? "bg-green-100 text-green-700 border border-green-300 hover:bg-green-200"
+                  : "bg-red-100 text-red-700 border border-red-300 hover:bg-red-200"
+              } backdrop-blur-md transition-all`}
+            >
+              {event.metadata.is_public ? (
+                <>
+                  <Lock className="h-3 w-3" /> Public
+                </>
+              ) : (
+                <>
+                  <Lock className="h-3 w-3" /> Private
+                </>
+              )}
+            </Badge>
           )}
-          {event.metadata.is_public && event.metadata.registration_fee > 0 ? (
-            <>
-              <Badge variant="outline" className="gap-1">
-                <DollarSign className="h-3 w-3" />
-                <span>Public</span>
-              </Badge>
-              <Badge variant="outline" className="gap-1">
-                <DollarSign className="h-3 w-3" />
-                <span>{event.metadata.registration_fee}</span>
-              </Badge>
-            </>
-          ) : (
-            <Badge variant="outline">Free</Badge>
-          )}
+          <Badge
+            variant="secondary"
+            className={`gap-1 ${
+              event.metadata.registration_fee > 0
+                ? "bg-yellow-100 text-yellow-700 border border-yellow-300 hover:bg-yellow-200"
+                : "bg-green-100 text-green-700 border border-green-300 hover:bg-green-200"
+            } backdrop-blur-md transition-all`}
+          >
+            {event.metadata.registration_fee > 0 ? (
+              <>
+                <DollarSign className="h-3 w-3" />$
+                {event.metadata.registration_fee.toFixed(2)}
+              </>
+            ) : (
+              "Free"
+            )}
+          </Badge>
         </div>
 
         <h1 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
           {event.metadata.title}
+        </h1>
+        <h1 className="mb-4 text-xl tracking-tight md:text-base">
+          {event.metadata.description}
         </h1>
 
         <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

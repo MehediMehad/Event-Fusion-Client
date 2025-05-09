@@ -58,6 +58,7 @@ export type EventType = {
     payment_status: string
     paymentId: any
     joined_at: string
+    user: User
   }
   
 interface Review {
@@ -75,4 +76,5 @@ interface User {
     id: string
     name: string
     profilePhoto: string
+    email: string
   }

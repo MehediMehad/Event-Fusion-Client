@@ -11,6 +11,7 @@ import { Ban, Check, X } from "lucide-react";
 import Image from "next/image";
 
 const Participants = ({ event }: { event: TEventResponse }) => {
+
   const { user } = useUser();
   const isOrganizer = user?.userId === event.metadata.organizer.id;
   console.log(event.participation);
@@ -66,8 +67,8 @@ const Participants = ({ event }: { event: TEventResponse }) => {
                 <div className="flex items-center gap-3">
                   <div className="relative h-10 w-10 overflow-hidden rounded-full bg-muted">
                     <Image
-                      src={`https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg `}
-                      alt="Profile"
+                      src={participant.user.profilePhoto}
+                      alt={participant.user.name}
                       fill
                     />
                   </div>
@@ -113,13 +114,13 @@ const Participants = ({ event }: { event: TEventResponse }) => {
             <div className="flex items-center gap-3">
               <div className="relative h-10 w-10 overflow-hidden rounded-full bg-muted">
                 <Image
-                  src={`https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg `}
-                  alt="Profile"
+                  src={participant.user.profilePhoto}
+                  alt={participant.user.name}
                   fill
                 />
               </div>
               <div>
-                <p className="font-medium">Participant Name</p>
+                <p className="font-medium">{participant.user.name}</p>
                 <p className="text-sm text-muted-foreground">
                   Joined {formatTimeAgo(participant.joined_at)}
                 </p>
