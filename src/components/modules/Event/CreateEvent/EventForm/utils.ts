@@ -1,0 +1,6 @@
+ export const PSTATUS = {
+  PENDING: "PENDING",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
+  BANNED: "BANNED",
+} as const;

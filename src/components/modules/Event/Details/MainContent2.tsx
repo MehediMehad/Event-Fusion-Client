@@ -7,7 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@/context/UserContext";
 import { useToast } from "@/hooks/use-toast";
-import { formatCurrency, formatDate, formatTime, formatTimeAgo } from "@/lib/format";
+import {
+  formatCurrency,
+  formatDate,
+  formatTime,
+  formatTimeAgo,
+} from "@/lib/format";
 import {
   Calendar,
   ChevronDown,
@@ -24,7 +29,17 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MOCK_PARTICIPANTS, MOCK_REVIEWS } from "@/lib/fakedata";
 import { Textarea } from "@/components/ui/textarea";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Separator } from "@radix-ui/react-select";
 
 const MainContent2 = ({ event }: { event: any }) => {
@@ -32,22 +47,25 @@ const MainContent2 = ({ event }: { event: any }) => {
   const { user } = useUser();
   const router = useRouter();
   const [isJoining, setIsJoining] = useState(false);
-  const [newReview, setNewReview] = useState('');
+  const [newReview, setNewReview] = useState("");
   const [rating, setRating] = useState(5);
   const isOrganizer = user?.userId === event.organizerId;
   const isPastEvent = new Date(event.date) < new Date();
   const reviews = MOCK_REVIEWS.filter((r) => r.eventId === 1);
-    // Check if user has joined the event
-    const hasJoined = user && MOCK_PARTICIPANTS.some(
-      (p) => p.userId === user.userId && p.eventId === 1 && p.status === 'approved'
+  // Check if user has joined the event
+  const hasJoined =
+    user &&
+    MOCK_PARTICIPANTS.some(
+      (p) =>
+        p.userId === user.userId && p.eventId === 1 && p.status === "approved"
     );
 
-      // Check if user has already reviewed
+  // Check if user has already reviewed
   const userReview = user && reviews.find((r) => r.userId === user.userId);
 
   const handleSubmitReview = () => {
     if (!user) return;
-    
+
     // In a real app, this would be an API call
     const review = {
       id: `review-${Date.now()}`,
@@ -59,16 +77,16 @@ const MainContent2 = ({ event }: { event: any }) => {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
+
     // Add review to mock data
     MOCK_REVIEWS.push(review);
-    
+
     toast({
-      title: 'Review Submitted',
-      description: 'Thank you for sharing your feedback!',
+      title: "Review Submitted",
+      description: "Thank you for sharing your feedback!",
     });
-    
-    setNewReview('');
+
+    setNewReview("");
     setRating(5);
   };
 
@@ -78,8 +96,8 @@ const MainContent2 = ({ event }: { event: any }) => {
     if (index !== -1) {
       MOCK_REVIEWS.splice(index, 1);
       toast({
-        title: 'Review Deleted',
-        description: 'Your review has been removed.',
+        title: "Review Deleted",
+        description: "Your review has been removed.",
       });
     }
   };
@@ -195,10 +213,6 @@ const MainContent2 = ({ event }: { event: any }) => {
               >
                 {isJoining ? "Processing..." : getJoinButtonText()}
               </Button>
-              {/* TODO */}
-              {/* <Button variant="outline" size="icon">
-                <Heart className="h-5 w-5" />
-              </Button> */}
               <Button variant="outline" size="icon">
                 <MdOutlineRateReview size={40} />
               </Button>
@@ -216,7 +230,7 @@ const MainContent2 = ({ event }: { event: any }) => {
           <TabsTrigger value="participants">Participants</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
         </TabsList>
-        {/* <TabsContent value="details" className="mt-6">
+        <TabsContent value="details" className="mt-6">
           <div className="prose max-w-none dark:prose-invert">
             <h2 className="text-xl font-semibold">About this event</h2>
             <p>{event.description}</p>
@@ -271,7 +285,7 @@ const MainContent2 = ({ event }: { event: any }) => {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-        </TabsContent> */}
+        </TabsContent>
         <TabsContent value="participants" className="mt-6">
           <div className="rounded-lg border p-6">
             <h2 className="mb-4 text-xl font-semibold">
@@ -322,118 +336,124 @@ const MainContent2 = ({ event }: { event: any }) => {
           </div>
         </TabsContent>
         <TabsContent value="reviews" className="mt-6">
-        <TabsContent value="reviews" className="mt-6">
-                <div className="rounded-lg border p-6">
-                  <h2 className="mb-4 text-xl font-semibold">Reviews & Ratings</h2>
-                  
-                  {/* {isPastEvent && hasJoined && !userReview && ( */}
-                  {user&& (
-                    <div className="mb-6 space-y-4">
-                      <div className="flex items-center gap-2">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <button
-                            key={star}
-                            onClick={() => setRating(star)}
-                            className="focus:outline-none"
-                          >
-                            <Star
-                              className={`h-6 w-6 ${
-                                star <= rating
-                                  ? 'fill-yellow-400 text-yellow-400'
-                                  : 'text-gray-300'
-                              }`}
+          <TabsContent value="reviews" className="mt-6">
+            <div className="rounded-lg border p-6">
+              <h2 className="mb-4 text-xl font-semibold">Reviews & Ratings</h2>
+
+              {/* {isPastEvent && hasJoined && !userReview && ( */}
+              {user && (
+                <div className="mb-6 space-y-4">
+                  <div className="flex items-center gap-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        onClick={() => setRating(star)}
+                        className="focus:outline-none"
+                      >
+                        <Star
+                          className={`h-6 w-6 ${
+                            star <= rating
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-gray-300"
+                          }`}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                  <Textarea
+                    placeholder="Share your experience..."
+                    value={newReview}
+                    onChange={(e) => setNewReview(e.target.value)}
+                    className="min-h-[100px]"
+                  />
+                  <Button
+                    onClick={handleSubmitReview}
+                    disabled={!newReview.trim()}
+                  >
+                    Submit Review
+                  </Button>
+                </div>
+              )}
+
+              <div className="space-y-6">
+                {reviews.length > 0 ? (
+                  reviews.map((review) => (
+                    <div key={review.id} className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="relative h-10 w-10 overflow-hidden rounded-full bg-muted">
+                            <Image
+                              src={
+                                review.user.image ||
+                                `https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg`
+                              }
+                              alt={review.user.name}
+                              fill
+                              className="object-cover"
                             />
-                          </button>
+                          </div>
+                          <div>
+                            <p className="font-medium">{review.user.name}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {formatTimeAgo(review.createdAt)}
+                            </p>
+                          </div>
+                        </div>
+                        {user?.userId === review.userId && (
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                <Trash className="h-4 w-4" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Delete Review
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete your review?
+                                  This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => handleDeleteReview(review.id)}
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`h-4 w-4 ${
+                              i < review.rating
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-gray-300"
+                            }`}
+                          />
                         ))}
                       </div>
-                      <Textarea
-                        placeholder="Share your experience..."
-                        value={newReview}
-                        onChange={(e) => setNewReview(e.target.value)}
-                        className="min-h-[100px]"
-                      />
-                      <Button
-                        onClick={handleSubmitReview}
-                        disabled={!newReview.trim()}
-                      >
-                        Submit Review
-                      </Button>
+                      <p className="text-sm">{review.comment}</p>
+                      <Separator className="my-4" />
                     </div>
-                  )}
-                  
-                  <div className="space-y-6">
-                    {reviews.length > 0 ? (
-                      reviews.map((review) => (
-                        <div key={review.id} className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <div className="relative h-10 w-10 overflow-hidden rounded-full bg-muted">
-                                <Image
-                                  src={review.user.image || `https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg`}
-                                  alt={review.user.name}
-                                  fill
-                                  className="object-cover"
-                                />
-                              </div>
-                              <div>
-                                <p className="font-medium">{review.user.name}</p>
-                                <p className="text-xs text-muted-foreground">
-                                  {formatTimeAgo(review.createdAt)}
-                                </p>
-                              </div>
-                            </div>
-                            {user?.userId === review.userId && (
-                              <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                  <Button variant="ghost" size="icon">
-                                    <Trash className="h-4 w-4" />
-                                  </Button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent>
-                                  <AlertDialogHeader>
-                                    <AlertDialogTitle>Delete Review</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                      Are you sure you want to delete your review? This action cannot be undone.
-                                    </AlertDialogDescription>
-                                  </AlertDialogHeader>
-                                  <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction
-                                      onClick={() => handleDeleteReview(review.id)}
-                                    >
-                                      Delete
-                                    </AlertDialogAction>
-                                  </AlertDialogFooter>
-                                </AlertDialogContent>
-                              </AlertDialog>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-1">
-                            {Array.from({ length: 5 }).map((_, i) => (
-                              <Star
-                                key={i}
-                                className={`h-4 w-4 ${
-                                  i < review.rating
-                                    ? 'fill-yellow-400 text-yellow-400'
-                                    : 'text-gray-300'
-                                }`}
-                              />
-                            ))}
-                          </div>
-                          <p className="text-sm">{review.comment}</p>
-                          <Separator className="my-4" />
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-center text-muted-foreground">
-                        {isPastEvent
-                          ? 'No reviews yet. Be the first to share your experience!'
-                          : 'Reviews will be available after the event has taken place.'}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </TabsContent>
+                  ))
+                ) : (
+                  <p className="text-center text-muted-foreground">
+                    {isPastEvent
+                      ? "No reviews yet. Be the first to share your experience!"
+                      : "Reviews will be available after the event has taken place."}
+                  </p>
+                )}
+              </div>
+            </div>
+          </TabsContent>
         </TabsContent>
       </Tabs>
     </div>

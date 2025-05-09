@@ -16,7 +16,7 @@ export default async function EventPage({ params }: { params: { id: string } }) 
       {/* Hero section */}
       <HeroSection event={event} />
       <div className="container px-4 md:px-6 mx-auto mt-10">
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="">
           {/* Main content */}
           <MainContent event={event} />
           {/* <DetailsSidebar event={event} /> */}
