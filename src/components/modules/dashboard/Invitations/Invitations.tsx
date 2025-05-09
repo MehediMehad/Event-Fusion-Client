@@ -10,18 +10,26 @@ import {
 } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { TInvitations } from "@/types/invitation";
+import { useState } from "react";
+import { acceptDeclineInvitation } from "@/services/Invitation";
+import { toast } from "sonner";
 
 export default function Invitations({
   invitations,
 }: {
   invitations: TInvitations[];
 }) {
-  const handleAcceptInvitation = (invitationId: string) => {
-    // In a real app, make API call to accept invitation
-  };
+  const [loadingId, setLoadingId] = useState<string | null>(null);
 
-  const handleDeclineInvitation = (invitationId: string) => {
-    // In a real app, make API call to decline invitation
+  const handleResponse = async (invitationId: string, status: string) => {
+    setLoadingId(invitationId);
+    const result = await acceptDeclineInvitation({ status, invitationId });
+
+
+    if (result.error) {
+      toast(result.error.message || "Felid")
+    }
+    setLoadingId(null);
   };
 
   return (
@@ -64,7 +72,8 @@ export default function Invitations({
               </div>
               <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
                 <Button
-                  onClick={() => handleAcceptInvitation(invitation.id)}
+                  onClick={() => handleResponse(invitation.id, "ACCEPTED")}
+                  disabled={loadingId === invitation.id}
                   className="sm:w-auto"
                 >
                   {invitation.event.registration_fee > 0
@@ -75,9 +84,10 @@ export default function Invitations({
                 </Button>
                 <Button
                   variant="outline"
-                  onClick={() => handleDeclineInvitation(invitation.id)}
+                  onClick={() => handleResponse(invitation.id, "REJECTED")}
+                  disabled={loadingId === invitation.id}
                 >
-                  Decline
+                  {loadingId === invitation.id ? "Processing..." : "Decline"}
                 </Button>
               </div>
             </div>

@@ -21,7 +21,7 @@ export const inviteUserAction = async ({
           Authorization: (await cookies()).get("accessToken")!.value,
         },
       });
-    revalidateTag("PRODUCT");
+    revalidateTag("INVITATION");
     return res.json();
   } catch (error: any) {
     return Error(error);
@@ -56,5 +56,28 @@ export const geyMyNotification = async () => {
   } catch (error: any) {
     console.error("Error fetching my events:", error.message);
     return { error: error.message || "Something went wrong" };
+  }
+};
+
+export const acceptDeclineInvitation = async ({
+  status,
+  invitationId,
+}: {
+  status: string;
+  invitationId: string;
+}) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/invite/respond`, {
+      method: "PUT",
+      body: JSON.stringify({ status, invitationId }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: (await cookies()).get("accessToken")!.value,
+      },
+    });
+    revalidateTag("INVITATION");
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
   }
 };
