@@ -17,7 +17,6 @@ interface FeaturedEventProps {
 
 export default function FeaturedEvent({ event }: FeaturedEventProps) {
   const { user } = useUser();
-  console.log('😎😎',user);
   
   const getEventBadge = () => {
     if (event.is_public && event.registration_fee > 0) {

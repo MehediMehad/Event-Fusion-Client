@@ -69,12 +69,9 @@ export const getAllEventsDetailsPage = async (
   }
 };
 
-
 export const getSingleEventDetails = async (id: string) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/event/${id}`,
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/event/${id}`);
     const data = await res.json();
     return data;
   } catch (error: any) {
@@ -116,7 +113,7 @@ export const getMyEvent = async () => {
 export const getNonParticipants = async (eventId: string) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/user/non-participants/${eventId}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/user/non-participants/${eventId}`
     );
     const data = await res.json();
     return data;
@@ -138,7 +135,6 @@ export const getAllUpcomingEvent = async () => {
     return Error(error);
   }
 };
-
 
 export const updateEvent = async (
   eventData: FormData,
@@ -162,16 +158,38 @@ export const updateEvent = async (
   }
 };
 
-export const joinEvent = async (payload: { eventId: string; payment_status: string }) => {
+export const addToHeroSection = async (eventId: string) => {
+  
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/event/add-to-hero-section`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: (await cookies()).get("accessToken")!.value,
+    },
+    body: JSON.stringify({ eventId }),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to update hero section");
+  }
+  return await res.json();
+};
+
+export const joinEvent = async (payload: {
+  eventId: string;
+  payment_status: string;
+}) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/event/join-event`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: (await cookies()).get("accessToken")!.value,
-      },
-      body: JSON.stringify(payload),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/event/join-event`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: (await cookies()).get("accessToken")!.value,
+        },
+        body: JSON.stringify(payload),
+      }
+    );
 
     const result = await res.json();
     return result;

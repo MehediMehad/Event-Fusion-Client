@@ -11,6 +11,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/context/UserContext";
 import { deleteEvent } from "@/services/Event";
 import { TEventResponse } from "@/types/event";
 import { Edit, Trash } from "lucide-react";
@@ -19,6 +20,8 @@ import { toast } from "sonner";
 
 const ManageEvent = ({ event }: { event: TEventResponse }) => {
   const router = useRouter();
+  const { user } = useUser();
+  const isAdmin = user?.role ==="admin"
 
   const handleDeleteEvent = async () => {
     const result = await deleteEvent(event.metadata.id);
@@ -34,15 +37,15 @@ const ManageEvent = ({ event }: { event: TEventResponse }) => {
 
   return (
     <>
-      <Button
-        className="bg-chart-2 hover:bg-chart-2/90"
-        onClick={() =>
-          router.push(`/user/events/${event.metadata.id}/edit`)
-        }
-      >
-        <Edit className="mr-2 h-4 w-4" />
-        Edit Event
-      </Button>
+      {!isAdmin && (
+        <Button
+          className="bg-chart-2 hover:bg-chart-2/90"
+          onClick={() => router.push(`/user/events/${event.metadata.id}/edit`)}
+        >
+          <Edit className="mr-2 h-4 w-4" />
+          Edit Event
+        </Button>
+      )}
 
       <AlertDialog>
         <AlertDialogTrigger asChild>

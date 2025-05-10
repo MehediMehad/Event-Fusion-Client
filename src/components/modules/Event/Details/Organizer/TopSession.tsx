@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/UserContext";
 import { formatCurrency, formatDate, formatTime } from "@/lib/format";
-import { joinEvent } from "@/services/Event";
+import { addToHeroSection, joinEvent } from "@/services/Event";
 import { TEventResponse } from "@/types/event";
 import { Calendar, Clock, DollarSign, Lock, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -14,6 +14,7 @@ import InviteUsersModal from "../../InviteUser/InviteUsersModal";
 
 const TopSession = ({ event }: { event: TEventResponse }) => {
   const { user } = useUser();
+  const isAdmin = user?.role ==="admin"
   const router = useRouter();
   const [isJoining, setIsJoining] = useState(false);
   const isOrganizer = user?.userId === event.metadata.organizer.id;
@@ -66,6 +67,19 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
       return `Pay & Join • ${formatCurrency(event.metadata.registration_fee)}`;
     } else {
       return "Join for Free";
+    }
+  };
+
+  const handleAddToHeroSection = async (eventId: string) => {
+    try {
+      const result = await addToHeroSection(eventId);
+      if (result.success) {
+        toast.success( "Added to hero section!");
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (err: any) {
+      toast.error(`Error: ${err.message}`);
     }
   };
 
@@ -147,7 +161,7 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
         </div>
 
         <div className="flex flex-wrap gap-3">
-          {isOrganizer ? (
+          {isOrganizer || isAdmin ? (
             <ManageEvent event={event} />
           ) : (
             <>
@@ -170,6 +184,17 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
               </Button>
               <InviteUsersModal event={event} eventId={event.metadata.id} />
             </>
+          )}
+
+          {isAdmin && (
+
+
+            <Button
+              className="bg-green-600 hover:bg-green-700"
+              onClick={() => handleAddToHeroSection(event.metadata.id)}
+            >
+              Add to Hero Section
+            </Button>
           )}
         </div>
       </div>
