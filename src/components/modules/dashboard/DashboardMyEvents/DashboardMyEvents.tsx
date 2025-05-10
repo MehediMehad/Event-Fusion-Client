@@ -1,19 +1,17 @@
 "use client";
-
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import EventsGrid from "@/components/modules/Events/EventsGrid";
+import EventSlider from "../../eventHome/UpcomingEvents/EventSlider";
+import { cn } from "@/lib/utils";
 
-export default function DashboardMyEvents({ events }: { events: any[] }) {
-  // Filter events created by the user
-  //   const userEvents = MOCK_EVENTS.filter((event) => event.organizerId === user.id);
-
+export default function DashboardMyEvents({ events, className }: { events: any[], className?: string }) {
+  
   return (
-    <div className="grid gap-6">
-      <div className="flex items-center justify-between">
+    <div className="grid ">
+      <div className={cn(`flex items-center justify-between mt-5`)}>
         <h1 className="text-3xl font-bold tracking-tight">My Events</h1>
-        <Button asChild>
+        <Button asChild className={cn(className)}>
           <Link href="/user/create-event">
             <Plus className="mr-2 h-4 w-4" />
             Create Event
@@ -22,12 +20,9 @@ export default function DashboardMyEvents({ events }: { events: any[] }) {
       </div>
 
       {events.length > 0 ? (
-        <EventsGrid
-          events={events}
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
-        />
+        <EventSlider events={events} />
       ) : (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
+        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center my-5">
           <h3 className="mb-2 text-lg font-semibold">No events yet</h3>
           <p className="mb-4 text-muted-foreground">
             You haven&apos;t created any events yet. Create your first event

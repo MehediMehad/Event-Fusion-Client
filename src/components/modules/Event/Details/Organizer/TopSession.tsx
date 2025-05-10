@@ -14,7 +14,7 @@ import InviteUsersModal from "../../InviteUser/InviteUsersModal";
 
 const TopSession = ({ event }: { event: TEventResponse }) => {
   const { user } = useUser();
-  const isAdmin = user?.role ==="admin"
+  const isAdmin = user?.role === "admin";
   const router = useRouter();
   const [isJoining, setIsJoining] = useState(false);
   const isOrganizer = user?.userId === event.metadata.organizer.id;
@@ -29,7 +29,7 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
   // Check if user has joined the event
   const handleJoinEvent = async () => {
     if (!user) {
-      router.push("/auth/login");
+      router.push("/login");
       return;
     }
 
@@ -74,7 +74,7 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
     try {
       const result = await addToHeroSection(eventId);
       if (result.success) {
-        toast.success( "Added to hero section!");
+        toast.success("Added to hero section!");
       } else {
         throw new Error(result.error);
       }
@@ -187,8 +187,6 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
           )}
 
           {isAdmin && (
-
-
             <Button
               className="bg-green-600 hover:bg-green-700"
               onClick={() => handleAddToHeroSection(event.metadata.id)}

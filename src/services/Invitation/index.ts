@@ -28,7 +28,7 @@ export const inviteUserAction = async ({
   }
 };
 
-export const getMyNotification = async () => {
+export const myPendingNotification = async () => {
   try {
     const token = (await cookies()).get("accessToken")?.value;
 
@@ -37,7 +37,7 @@ export const getMyNotification = async () => {
     }
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/invite/notification`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/invite/my-pending-notification`,
       {
         headers: {
           Authorization: token,

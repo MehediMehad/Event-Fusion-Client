@@ -1,24 +1,23 @@
-"use client";
-
-import Image from "next/image";
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  formatTimeAgo,
+  formatCurrency,
   formatDate,
   formatTime,
-  formatCurrency,
+  formatTimeAgo,
 } from "@/lib/format";
-import { Button } from "@/components/ui/button";
-import { TInvitations } from "@/types/invitation";
-import { useState } from "react";
 import { acceptDeclineInvitation } from "@/services/Invitation";
+import { TInvitations } from "@/types/invitation";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 import { toast } from "sonner";
 
-export default function Invitations({
-  invitations,
+const PendingNotification = ({
+  notification,
 }: {
-  invitations: TInvitations[];
-}) {
+  notification: TInvitations[];
+}) => {
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
   const handleResponse = async (invitationId: string, status: string) => {
@@ -32,12 +31,18 @@ export default function Invitations({
   };
 
   return (
-    <div className="grid gap-6">
-      <h1 className="text-3xl font-bold tracking-tight">Invitations</h1>
-
-      {invitations.length > 0 ? (
+    <div className="">
+      <Card className="mb-2">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>Pending Invitations</CardTitle>
+          <Button variant="secondary" size="sm" asChild>
+            <Link href="/dashboard/invitations">View Invitations</Link>
+          </Button>
+        </CardHeader>
+      </Card>
+      {notification.length > 0 ? (
         <div className="space-y-4">
-          {invitations.map((invitation: TInvitations) => (
+          {notification.map((invitation: TInvitations) => (
             <div
               key={invitation.id}
               className="flex flex-col items-start justify-between gap-4 rounded-lg border p-4 sm:flex-row sm:items-center"
@@ -102,4 +107,6 @@ export default function Invitations({
       )}
     </div>
   );
-}
+};
+
+export default PendingNotification;

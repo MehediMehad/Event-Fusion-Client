@@ -1,12 +1,17 @@
-export default function UserDashboard() {
+import DashboardOverview from "@/components/modules/Dashboard/Dashboard/DashboardOverview";
+import { getMyEvent } from "@/services/Event";
+import { myPendingNotification } from "@/services/Invitation";
+
+// 🔁 Disable static generation for this page
+export const dynamic = 'force-dynamic';
+
+export default async function UserDashboard() {
+    const data = await getMyEvent();
+    const notification = await myPendingNotification();
+  
   return (
     <div>
-      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-        <div className="aspect-video rounded-xl bg-muted " />
-        <div className="aspect-video rounded-xl bg-muted" />
-        <div className="aspect-video rounded-xl bg-muted" />
-      </div>
-      <div className="min-h-[100vh] rounded-xl bg-muted mt-4" />
+      <DashboardOverview events={data.data} notification={notification.data} />
     </div>
   );
 }
