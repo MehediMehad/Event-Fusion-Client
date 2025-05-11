@@ -15,14 +15,15 @@ import { Textarea } from "../textarea";
 import { toast } from "sonner";
 import { UpdateReviewAction } from "@/services/Review";
 
-export function ReviewUpdateDialog({ review }: { review: ReviewData }) {
+export function ReviewUpdateDialog({ review }: { review: any }) {
   const [open, setOpen] = React.useState(false);
 
   const [rating, setRating] = React.useState<number>(review.rating);
   const [newReview, setNewReview] = React.useState<string>(review.comment);
 
   const handleEdit = async () => {
-    if (!newReview.trim() || !rating) return;
+    if (!rating) return toast.warning("Add Rating")
+    if (!newReview.trim()) return toast.warning("Wright Review")
     try {
       const res = await UpdateReviewAction({
         reviewId: review.id,
@@ -30,8 +31,8 @@ export function ReviewUpdateDialog({ review }: { review: ReviewData }) {
         comment: newReview,
       });
       if (res.success) {
-          toast.success(`Thanks For FeedBack`);
-          setOpen(false); // dialog
+        toast.success(`Thanks For FeedBack`);
+        setOpen(false); // dialog
       } else {
         toast.error(res.message || "Failed to send invitation");
       }
@@ -43,12 +44,12 @@ export function ReviewUpdateDialog({ review }: { review: ReviewData }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button
-          className="text-blue-500 hover:text-blue-700 p-1"
+        <Button
+        variant="ghost" size="icon"
           onClick={() => setOpen(true)}
         >
           <FiEdit size={18} />
-        </button>
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

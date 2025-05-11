@@ -43,9 +43,15 @@ const Reviews = ({ event }: { event: TEventResponse }) => {
   const hasJoined = event.participation.some(
     (p) => p.userId === user?.userId && p.status === PSTATUS.APPROVED
   );
+  const hasReviewed = event.review.some(
+    (r) => r.user.id === user?.userId
+  );
+
+  console.log("😂😂",event);
 
   const handleSubmitReview = async () => {
-    if (!newReview.trim() || !rating) return;
+    if (!rating) return toast.warning("Add Rating")
+    if (!newReview.trim()) return toast.warning("Wright Review")
 
     try {
       const res = await SendReviewAction({
@@ -80,7 +86,7 @@ const Reviews = ({ event }: { event: TEventResponse }) => {
 
       {/* Review Form */}
       {/* {isPastEvent && hasJoined && !userReview && ( */}
-      {user && !isOrganizer && hasJoined && (
+      {user && !isOrganizer && hasJoined && !hasReviewed && (
         <div className="mb-6 space-y-4">
           <div className="flex items-center gap-2">
             {[1, 2, 3, 4, 5].map((star) => (

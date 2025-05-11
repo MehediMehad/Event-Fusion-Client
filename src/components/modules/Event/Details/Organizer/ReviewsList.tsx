@@ -1,11 +1,21 @@
+import DeleteReviewDialog from "@/components/ui/core/DeleteReviewDialog";
+import { ReviewUpdateDialog } from "@/components/ui/core/ReviewUpdateDialog";
 import { Separator } from "@/components/ui/separator";
+import { useUser } from "@/context/UserContext";
 import { formatTimeAgo } from "@/lib/format";
 import { TEventResponse } from "@/types/event";
 import { Star } from "lucide-react";
 import Image from "next/image";
 
-const ReviewsList =  ({ event }: { event: TEventResponse }) => {
- const reviews = event.review
+const ReviewsList = ({ event }: { event: TEventResponse }) => {
+  const { user } = useUser();
+
+  // created_at descending order (newest first)
+  const reviews = [...event.review].sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+
   return (
     <div className="space-y-6">
       {reviews?.length > 0 ? (
@@ -30,32 +40,12 @@ const ReviewsList =  ({ event }: { event: TEventResponse }) => {
                   </p>
                 </div>
               </div>
-              {/* DODO */}
-              {/* {user?.userId === review.userId && (
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Trash className="h-4 w-4" />
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Delete Review</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Are you sure you want to delete your review?
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() => handleDeleteReview(review.id)}
-                    >
-                      Delete
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            )} */}
+              {user?.userId === review.user.id && (
+                <div>
+                  <ReviewUpdateDialog review={review} />
+                  <DeleteReviewDialog review={review} />
+                </div>
+              )}
             </div>
             <div className="flex items-center gap-1">
               {Array.from({ length: 5 }).map((_, i) => (

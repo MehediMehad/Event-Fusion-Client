@@ -1,43 +1,20 @@
 "use client";
 import Link from "next/link";
-import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { FiEdit, FiStar } from "react-icons/fi";
+import { FiStar } from "react-icons/fi";
 import { ReviewData } from "@/types/review";
 import { formatTimeAgo } from "@/lib/format";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { deleteReview } from "@/services/Review";
 import { ReviewUpdateDialog } from "@/components/ui/core/ReviewUpdateDialog";
+import DeleteReviewDialog from "@/components/ui/core/DeleteReviewDialog";
 
 export default function DashboardReviews({
   reviews,
 }: {
   reviews: ReviewData[];
 }) {
-  const router = useRouter();
-
-  const handleDeleteReview = async (reviewId: string) => {
-    const result = await deleteReview(reviewId);
-
-    if (result.success) {
-      toast.success(result.message);
-      router.refresh(); // 👈 This will refetch the page data
-    } else {
-      toast.error(result.message);
-    }
-  };
 
   return (
     <div className="grid gap-6 mt-10 mx-10">
@@ -95,31 +72,7 @@ export default function DashboardReviews({
 
                     <div className="flex gap-2">
                       <ReviewUpdateDialog review={review}/>
-
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <Trash className="h-4 w-4" />
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Delete Review</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Are you sure you want to delete this review? This
-                              action cannot be undone.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => handleDeleteReview(review.id)}
-                            >
-                              Delete
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+                      <DeleteReviewDialog review={review}/>
                     </div>
                   </div>
                 </div>
