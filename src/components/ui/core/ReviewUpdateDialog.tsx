@@ -7,7 +7,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ReviewData } from "@/types/review";
 import { Star } from "lucide-react";
 import React from "react";
 import { FiEdit } from "react-icons/fi";
@@ -22,8 +21,8 @@ export function ReviewUpdateDialog({ review }: { review: any }) {
   const [newReview, setNewReview] = React.useState<string>(review.comment);
 
   const handleEdit = async () => {
-    if (!rating) return toast.warning("Add Rating")
-    if (!newReview.trim()) return toast.warning("Wright Review")
+    if (!rating) return toast.warning("Add Rating");
+    if (!newReview.trim()) return toast.warning("Wright Review");
     try {
       const res = await UpdateReviewAction({
         reviewId: review.id,
@@ -44,10 +43,7 @@ export function ReviewUpdateDialog({ review }: { review: any }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-        variant="ghost" size="icon"
-          onClick={() => setOpen(true)}
-        >
+        <Button variant="ghost" size="icon" onClick={() => setOpen(true)}>
           <FiEdit size={18} />
         </Button>
       </DialogTrigger>
@@ -55,7 +51,7 @@ export function ReviewUpdateDialog({ review }: { review: any }) {
         <DialogHeader>
           <DialogTitle>Edit Reviews</DialogTitle>
           <DialogDescription className="sr-only">
-            Make changes to your profile here. Click save when you're done.
+            Make changes to your profile here. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <div className="mb-6 space-y-4">
