@@ -10,11 +10,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import ManageEvent from "./ManageEvent";
-import InviteUsersModal from "../../InviteUser/InviteUsersModal";
 
 const TopSession = ({ event }: { event: TEventResponse }) => {
   const { user } = useUser();
-  const isAdmin = user?.role === "admin";
+  const isAdmin = user?.role === "admin" || "ADMIN";
   const router = useRouter();
   const [isJoining, setIsJoining] = useState(false);
   const isOrganizer = user?.userId === event.metadata.organizer.id;
@@ -182,7 +181,6 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
                   ? "Your Request Was Rejected"
                   : getJoinButtonText()}
               </Button>
-              <InviteUsersModal event={event} eventId={event.metadata.id} />
             </>
           )}
 

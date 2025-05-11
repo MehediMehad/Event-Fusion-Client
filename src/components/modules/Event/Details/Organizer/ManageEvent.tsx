@@ -17,11 +17,12 @@ import { TEventResponse } from "@/types/event";
 import { Edit, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import InviteUsersModal from "../../InviteUser/InviteUsersModal";
 
 const ManageEvent = ({ event }: { event: TEventResponse }) => {
   const router = useRouter();
   const { user } = useUser();
-  const isAdmin = user?.role ==="admin"
+  const isAdmin = user?.role ==="admin" || "ADMIN"
 
   const handleDeleteEvent = async () => {
     const result = await deleteEvent(event.metadata.id);
@@ -37,7 +38,7 @@ const ManageEvent = ({ event }: { event: TEventResponse }) => {
 
   return (
     <>
-      {!isAdmin && (
+      {!isAdmin && (<>
         <Button
           className="bg-chart-2 hover:bg-chart-2/90"
           onClick={() => router.push(`/user/events/${event.metadata.id}/edit`)}
@@ -45,7 +46,9 @@ const ManageEvent = ({ event }: { event: TEventResponse }) => {
           <Edit className="mr-2 h-4 w-4" />
           Edit Event
         </Button>
+        </>
       )}
+
 
       <AlertDialog>
         <AlertDialogTrigger asChild>
@@ -72,6 +75,9 @@ const ManageEvent = ({ event }: { event: TEventResponse }) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      {
+        !isAdmin && (<InviteUsersModal event={event} eventId={event.metadata.id} />)
+      }
     </>
   );
 };
