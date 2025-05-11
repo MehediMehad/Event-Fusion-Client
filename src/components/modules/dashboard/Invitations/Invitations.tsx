@@ -31,6 +31,7 @@ export default function Invitations({
     setLoadingId(null);
   };
 
+
   return (
     <div className="grid gap-6">
       <h1 className="text-3xl font-bold tracking-tight">Invitations</h1>
@@ -72,7 +73,7 @@ export default function Invitations({
               <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
                 <Button
                   onClick={() => handleResponse(invitation.id, "ACCEPTED")}
-                  disabled={loadingId === invitation.id}
+                  disabled={invitation.status === "REJECTED" || "ACCEPTED" || loadingId === invitation.id ? true : false}
                   className="sm:w-auto"
                 >
                   {invitation.event.registration_fee > 0
@@ -82,11 +83,19 @@ export default function Invitations({
                     : "Accept"}
                 </Button>
                 <Button
+                disabled={invitation.status === "REJECTED" || "ACCEPTED" || loadingId === invitation.id ? true : false}
                   variant="outline"
                   onClick={() => handleResponse(invitation.id, "REJECTED")}
-                  disabled={loadingId === invitation.id}
                 >
-                  {loadingId === invitation.id ? "Processing..." : "Decline"}
+                  {invitation.status === "REJECTED" ? "Declined" : "Decline"}
+                </Button>
+                <Button
+                  variant="secondary"
+                >
+                  <Link href={`/events/${invitation.event_id}`}>
+                  View Details 
+                  </Link>
+                  
                 </Button>
               </div>
             </div>

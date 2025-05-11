@@ -1,13 +1,12 @@
-// app/(WithDashboardLayout)/user/invitations/page.tsx
-
 import Invitations from "@/components/modules/Dashboard/Invitations/Invitations";
-import { myPendingNotification } from "@/services/Invitation";
+import { getNotification } from "@/services/Invitation";
 
 // 🔁 Opt out of static generation since this uses cookies or user-specific data
 export const dynamic = "force-dynamic";
 
 const DashboardInvitationsPage = async () => {
-  const data = await myPendingNotification();
+  const data = await getNotification();
+  
 
   // Handle error case
   if (!data || data.error) {

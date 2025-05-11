@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { useUser } from "@/context/UserContext";
 import {
   formatCurrency,
   formatDate,
@@ -18,6 +19,7 @@ const PendingNotification = ({
 }: {
   notification: TInvitations[];
 }) => {
+  const { user } = useUser();
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
   const handleResponse = async (invitationId: string, status: string) => {
@@ -36,7 +38,9 @@ const PendingNotification = ({
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Pending Invitations</CardTitle>
           <Button variant="secondary" size="sm" asChild>
-            <Link href="/dashboard/invitations">View Invitations</Link>
+            <Link href={`/${user?.role.toLocaleLowerCase()}/invitations`}>
+              View Invitations
+            </Link>
           </Button>
         </CardHeader>
       </Card>

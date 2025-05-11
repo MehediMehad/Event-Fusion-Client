@@ -25,17 +25,13 @@ import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import Link from "next/link";
 import Logo from "@/assets/svgs/Logo";
-import { BiCalendarEvent } from "react-icons/bi";
+import { MdOutlineReviews } from "react-icons/md";
+
 
 import {
   LayoutDashboard,
   CalendarDays,
   Mail,
-  UserCircle,
-  LogOut,
-  Users,
-  FileText,
-  RefreshCw,
 } from 'lucide-react';
 
 
@@ -61,6 +57,11 @@ const data = {
       title: "Invitations",
       url: "/user/invitations",
       icon: Mail,
+    },
+    {
+      title: "Reviews",
+      url: "/user/reviews",
+      icon: MdOutlineReviews,
     },
     {
       title: "Setting",
