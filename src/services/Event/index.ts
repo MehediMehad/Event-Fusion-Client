@@ -4,6 +4,7 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 export const addEvent = async (eventData: FormData): Promise<any> => {
+  
   try {
     const token = (await cookies()).get("accessToken")?.value;
 

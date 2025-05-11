@@ -27,14 +27,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { registerUser } from "@/services/AuthService";
+import { useState } from "react";
+import NMProfileUploader from "./NMProfileUploader";
+import ProfilePreviewer from "./ProfilePreviewer";
+import UserImagePreviewer from "@/components/ui/core/UserImageUploder/UserImagePreviewer";
+import UserImageUploader from "@/components/ui/core/UserImageUploder/UserImageUploader";
 
 export default function RegisterForm() {
-
-  
-
   const form = useForm({
     resolver: zodResolver(registrationSchema),
   });
+  const [imageFiles, setImageFiles] = useState<File[] | []>([]);
+  const [imagePreview, setImagePreview] = useState<string[] | []>([]);
 
   const {
     formState: { isSubmitting },
@@ -47,10 +51,13 @@ export default function RegisterForm() {
   const { setIsLoading } = useUser();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
     try {
       const formData = new FormData();
       formData.append("data", JSON.stringify(data));
+      formData.append("file", imageFiles[0]);
       const res = await registerUser(formData);
+
       setIsLoading(true);
       if (res?.success) {
         toast.success(res?.message);
@@ -88,6 +95,27 @@ export default function RegisterForm() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="flex gap-x-4">
+              <div className="w-full">
+                {/* <div className="flex justify-between items-center border-t border-b py-3">
+                <FormLabel>Image</FormLabel>
+              </div> */}
+                <div className="flex gap-4 ">
+                  {imageFiles.length !== 1 && (
+                    <UserImageUploader
+                      setImageFiles={setImageFiles}
+                      setImagePreview={setImagePreview}
+                      label="Upload Image"
+                      className="mt-1 w-full"
+                    />
+                  )}
+                  <UserImagePreviewer
+                    className="flex flex-wrap gap-4"
+                    setImageFiles={setImageFiles}
+                    imagePreview={imagePreview}
+                    setImagePreview={setImagePreview}
+                  />
+                </div>
+              </div>
               <div className="w-full flex flex-col gap-2">
                 <FormField
                   control={form.control}
