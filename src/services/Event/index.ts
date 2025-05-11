@@ -141,7 +141,6 @@ export const updateEvent = async (
   eventData: FormData,
   eventId: string
 ): Promise<any> => {
-  console.log("😒",eventData);
   
   try {
     const res = await fetch(

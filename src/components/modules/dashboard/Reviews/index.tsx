@@ -4,18 +4,15 @@ import { Button } from "@/components/ui/button";
 import { FiStar } from "react-icons/fi";
 import { ReviewData } from "@/types/review";
 import { formatTimeAgo } from "@/lib/format";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { deleteReview } from "@/services/Review";
 import { ReviewUpdateDialog } from "@/components/ui/core/ReviewUpdateDialog";
 import DeleteReviewDialog from "@/components/ui/core/DeleteReviewDialog";
+import Image from "next/image";
 
 export default function DashboardReviews({
   reviews,
 }: {
   reviews: ReviewData[];
 }) {
-
   return (
     <div className="grid gap-6 mt-10 mx-10">
       <h1 className="text-3xl font-bold tracking-tight">My Reviews</h1>
@@ -28,7 +25,7 @@ export default function DashboardReviews({
               className="border rounded-lg p-4 hover:shadow-md transition-shadow"
             >
               <div className="flex items-start gap-4">
-                <img
+                <Image
                   src={review.event.coverPhoto}
                   alt={review.event.title}
                   className="w-16 h-16 object-cover rounded-md"
@@ -71,8 +68,8 @@ export default function DashboardReviews({
                     </div>
 
                     <div className="flex gap-2">
-                      <ReviewUpdateDialog review={review}/>
-                      <DeleteReviewDialog review={review}/>
+                      <ReviewUpdateDialog review={review} />
+                      <DeleteReviewDialog review={review} />
                     </div>
                   </div>
                 </div>
