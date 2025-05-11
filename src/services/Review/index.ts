@@ -86,3 +86,28 @@ export const getMyReview = async () => {
     return Error(error.message);
   }
 };
+
+export const UpdateReviewAction = async ({
+  reviewId,
+  rating,
+  comment,
+}: {
+  reviewId: string;
+  rating: string;
+  comment: string;
+}) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/review`, {
+      method: "PATCH",
+      body: JSON.stringify({ reviewId, rating, comment }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: (await cookies()).get("accessToken")!.value,
+      },
+    });
+    revalidateTag("REVIEW");
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};

@@ -19,6 +19,7 @@ import { formatTimeAgo } from "@/lib/format";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { deleteReview } from "@/services/Review";
+import { ReviewUpdateDialog } from "@/components/ui/core/ReviewUpdateDialog";
 
 export default function DashboardReviews({
   reviews,
@@ -36,10 +37,6 @@ export default function DashboardReviews({
     } else {
       toast.error(result.message);
     }
-  };
-  const handleEdit = (id: string) => {
-    // Edit logic here
-    console.log("Edit review:", id);
   };
 
   return (
@@ -97,12 +94,7 @@ export default function DashboardReviews({
                     </div>
 
                     <div className="flex gap-2">
-                      <button
-                        onClick={() => handleEdit(review.id)}
-                        className="text-blue-500 hover:text-blue-700 p-1"
-                      >
-                        <FiEdit size={18} />
-                      </button>
+                      <ReviewUpdateDialog review={review}/>
 
                       <AlertDialog>
                         <AlertDialogTrigger asChild>

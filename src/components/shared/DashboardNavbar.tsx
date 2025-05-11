@@ -33,7 +33,7 @@ export default function DashboardNavbar() {
   };
 
   return (
-    <header className="border-b bg-background w-full sticky top-0 z-[99999]">
+    <header className="border-b bg-background w-full sticky top-0">
       <div className="container flex justify-between items-center mx-auto h-16 px-5">
         <Link href="/">
           <h1 className="text-2xl font-black flex items-center sr-only">
