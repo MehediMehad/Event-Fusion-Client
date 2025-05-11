@@ -12,13 +12,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registrationSchema } from "./registerValidation";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
-import Logo from "@/components/shared/Logo";
 import {
   Select,
   SelectContent,
@@ -26,39 +23,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { registerUser } from "@/services/AuthService";
 import { useState } from "react";
 import UserImagePreviewer from "@/components/ui/core/UserImageUploder/UserImagePreviewer";
 import UserImageUploader from "@/components/ui/core/UserImageUploder/UserImageUploader";
+import { updateProfile } from "@/services/User";
+import { updateProfileSchema } from "../../auth/register/registerValidation";
+import { TGetMyInfo } from "@/types";
 
-export default function RegisterForm() {
-  const form = useForm({
-    resolver: zodResolver(registrationSchema),
-  });
+export default function H({
+  userIfo,
+}: {
+  userIfo: TGetMyInfo;
+}) {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
-  const [imagePreview, setImagePreview] = useState<string[] | []>([]);
+  const [imagePreview, setImagePreview] = useState<string[]>(
+    userIfo.profilePhoto ? [userIfo.profilePhoto] : []
+  );
+
+  const form = useForm({
+    resolver: zodResolver(updateProfileSchema),
+    defaultValues: {
+      name: userIfo?.name || "",
+      email: userIfo?.email || "",
+      contactNumber: userIfo?.contactNumber || "",
+      gender: userIfo?.gender || undefined,
+    },
+  });
 
   const {
     formState: { isSubmitting },
   } = form;
 
-  const password = form.watch("password");
-  const passwordConfirm = form.watch("passwordConfirm");
-  const router = useRouter();
-
   const { setIsLoading } = useUser();
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
     try {
       const formData = new FormData();
       formData.append("data", JSON.stringify(data));
       formData.append("file", imageFiles[0]);
-      const res = await registerUser(formData);
+      const res = await updateProfile(formData);
 
       setIsLoading(true);
       if (res?.success) {
         toast.success(res?.message);
-        router.push("/");
       } else {
         toast.error(res?.message);
       }
@@ -74,44 +81,33 @@ export default function RegisterForm() {
   ];
 
   return (
-    <Card className="w-full max-w-5xl shadow-lg rounded-xl overflow-hidden">
+    <Card className="w-full max-w-5xl mx-auto mt-6 shadow-lg rounded-xl overflow-hidden">
       <CardHeader className="space-y-4">
-        <div className="flex flex-col items-center space-y-2">
-          <Logo />
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Register
-            </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              Join us today and start your journey!
-            </p>
-          </div>
-        </div>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          Profile Update
+        </h1>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="flex gap-x-4">
               <div className="w-full">
-                {/* <div className="flex justify-between items-center border-t border-b py-3">
-                <FormLabel>Image</FormLabel>
-              </div> */}
-                <div className="flex gap-4 ">
-                  {imageFiles.length !== 1 && (
-                    <UserImageUploader
-                      setImageFiles={setImageFiles}
-                      setImagePreview={setImagePreview}
-                      label="Upload Image"
-                      className="mt-1 w-full"
-                    />
-                  )}
-                  <UserImagePreviewer
-                    className="flex flex-wrap gap-4"
-                    setImageFiles={setImageFiles}
-                    imagePreview={imagePreview}
-                    setImagePreview={setImagePreview}
-                  />
-                </div>
+              <div className="flex gap-4">
+              {imagePreview.length > 0 ? (
+                <UserImagePreviewer
+                  imagePreview={imagePreview}
+                  setImageFiles={setImageFiles}
+                  setImagePreview={setImagePreview}
+                  className="mt-1 w-full"
+                />
+              ) : (
+                <UserImageUploader
+                  setImagePreview={setImagePreview}
+                  setImageFiles={setImageFiles}
+                  label="Upload Logo"
+                />
+              )}
+            </div>
               </div>
               <div className="w-full flex flex-col gap-2">
                 <FormField
@@ -135,6 +131,7 @@ export default function RegisterForm() {
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
+                        disabled={true}
                           type="email"
                           {...field}
                           value={field.value || ""}
@@ -194,64 +191,14 @@ export default function RegisterForm() {
                     </FormItem>
                   )}
                 />
-
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="password"
-                          {...field}
-                          value={field.value || ""}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="passwordConfirm"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Confirm Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="password"
-                          {...field}
-                          value={field.value || ""}
-                        />
-                      </FormControl>
-
-                      {passwordConfirm && password !== passwordConfirm ? (
-                        <FormMessage> Password does not match </FormMessage>
-                      ) : (
-                        <FormMessage />
-                      )}
-                    </FormItem>
-                  )}
-                />
               </div>
             </div>
 
-            <Button
-              disabled={passwordConfirm && password !== passwordConfirm}
-              type="submit"
-              className="mt-5 w-full"
-            >
-              {isSubmitting ? "Registering...." : "Register"}
+            <Button type="submit" className="mt-5 w-full">
+              {isSubmitting ? "Updating...." : "Update"}
             </Button>
           </form>
         </Form>
-        <p className="text-sm text-gray-600 text-center my-3">
-          Already have an account ?
-          <Link href="/login" className="text-primary">
-            Login
-          </Link>
-        </p>
       </CardContent>
     </Card>
   );

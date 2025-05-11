@@ -8,3 +8,17 @@ export interface IUser {
   iat?: number;
   exp?: number;
 }
+
+
+export type TGetMyInfo = {
+  id: string;
+  name: string;
+  email: string;
+  profilePhoto?: string | null;
+  contactNumber: string;
+  gender: 'MALE' | 'FEMALE' | 'OTHER';
+  role: 'ADMIN' | 'ORGANIZER' | 'USER'; 
+  status: 'ACTIVE' | 'BLOCKED'; 
+  createdAt: string; 
+  updatedAt: string; 
+};

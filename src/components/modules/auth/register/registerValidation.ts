@@ -15,3 +15,17 @@ export const registrationSchema = z.object({
   message: "Passwords don't match",
   path: ["passwordConfirm"]
 });
+
+export const updateProfileSchema = z.object({
+    name: z.string().optional(),
+    email: z.string().email({ message: 'Provide a valid email' }).optional(),
+    contactNumber: z
+      .string()
+      .regex(/^\d+$/, { message: 'Contact number must be numeric' })
+      .min(10, { message: 'Contact number must be at least 10 digits' })
+      .max(15, { message: 'Contact number must be at most 15 digits' })
+      .optional(),
+    profilePhoto: z.string().optional(),
+    gender: z.enum(['MALE', 'FEMALE', 'OTHER']).optional()
+});
+
