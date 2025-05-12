@@ -38,7 +38,7 @@ const ManageEvent = ({ event }: { event: TEventResponse }) => {
 
   return (
     <>
-      {!isAdmin && (<>
+      { (<>
         <Button
           className="bg-chart-2 hover:bg-chart-2/90"
           onClick={() => router.push(`/user/events/${event.metadata.id}/edit`)}
@@ -75,9 +75,8 @@ const ManageEvent = ({ event }: { event: TEventResponse }) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      {
-        !isAdmin && (<InviteUsersModal event={event} eventId={event.metadata.id} />)
-      }
+       <InviteUsersModal event={event} eventId={event.metadata.id} />
+      
     </>
   );
 };

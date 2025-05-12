@@ -13,7 +13,8 @@ import ManageEvent from "./ManageEvent";
 
 const TopSession = ({ event }: { event: TEventResponse }) => {
   const { user } = useUser();
-  const isAdmin = user?.role === "admin" || "ADMIN";
+
+  
   const router = useRouter();
   const [isJoining, setIsJoining] = useState(false);
   const isOrganizer = user?.userId === event.metadata.organizer.id;
@@ -160,7 +161,7 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
         </div>
 
         <div className="flex flex-wrap gap-3">
-          {isOrganizer || isAdmin ? (
+          {isOrganizer || user?.role === "admin" ? (
             <ManageEvent event={event} />
           ) : (
             <>
@@ -184,7 +185,7 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
             </>
           )}
 
-          {isAdmin && (
+          { user?.role ==="admin" && (
             <Button
               className="bg-green-600 hover:bg-green-700"
               onClick={() => handleAddToHeroSection(event.metadata.id)}
