@@ -93,3 +93,34 @@ export const getMyDashboardInfo = async () => {
     return { error: error.message || "Something went wrong" };
   }
 };
+
+export const getAdminDashboardInfo = async () => {
+  try {
+    const token = (await cookies()).get("accessToken")?.value;
+
+    if (!token) {
+      throw new Error("No access token found");
+    }
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/user/get-admin-dashboard-info`,
+      {
+        headers: {
+          Authorization: token,
+        },
+        // Optional: cache control
+        cache: "no-store", // or "force-cache" based on your need
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch events");
+    }
+
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    console.error("Error fetching my events:", error.message);
+    return { error: error.message || "Something went wrong" };
+  }
+};
