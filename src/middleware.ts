@@ -3,7 +3,7 @@ import { getCurrentUser } from "./services/AuthService";
 
 type Role = keyof typeof roleBasedPrivateRoutes;
 
-const authRoutes = ["/login", "/register"];
+const authRoutes = ["/login", "/register", "/events"];
 
 const roleBasedPrivateRoutes = {
   user: [/^\/user/, /^\/create-shop/],
@@ -15,7 +15,6 @@ export const middleware = async (request: NextRequest) => {
 
   const userInfo = await getCurrentUser();
 
-  // অথবা রোলকে লোয়ারকেসে নরমালাইজ করুন
   const normalizedRole = userInfo?.role.toLowerCase() as Role;
 
   if (!userInfo) {

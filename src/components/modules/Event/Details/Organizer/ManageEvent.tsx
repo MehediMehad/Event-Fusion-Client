@@ -22,7 +22,7 @@ import InviteUsersModal from "../../InviteUser/InviteUsersModal";
 const ManageEvent = ({ event }: { event: TEventResponse }) => {
   const router = useRouter();
   const { user } = useUser();
-  const isAdmin = user?.role ==="admin" || "ADMIN"
+  const userRole = user?.role.toLocaleLowerCase();
 
   const handleDeleteEvent = async () => {
     const result = await deleteEvent(event.metadata.id);
@@ -38,17 +38,19 @@ const ManageEvent = ({ event }: { event: TEventResponse }) => {
 
   return (
     <>
-      { (<>
-        <Button
-          className="bg-chart-2 hover:bg-chart-2/90"
-          onClick={() => router.push(`/user/events/${event.metadata.id}/edit`)}
-        >
-          <Edit className="mr-2 h-4 w-4" />
-          Edit Event
-        </Button>
+      {user?.userId === event.metadata.organizer.id && (
+        <>
+          <Button
+            className="bg-chart-2 hover:bg-chart-2/90"
+            onClick={() =>
+              router.push(`/user/events/${event.metadata.id}/edit`)
+            }
+          >
+            <Edit className="mr-2 h-4 w-4" />
+            Edit Event
+          </Button>
         </>
       )}
-
 
       <AlertDialog>
         <AlertDialogTrigger asChild>
@@ -75,8 +77,7 @@ const ManageEvent = ({ event }: { event: TEventResponse }) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-       <InviteUsersModal event={event} eventId={event.metadata.id} />
-      
+      <InviteUsersModal event={event} eventId={event.metadata.id} />
     </>
   );
 };

@@ -79,7 +79,6 @@ export default function LoginForm() {
             <FormField
               control={form.control}
               name="email"
-              defaultValue={"mehedi@example.com"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
@@ -93,7 +92,6 @@ export default function LoginForm() {
             <FormField
               control={form.control}
               name="password"
-              defaultValue={"123456"}
               render={({ field }) => (
                 <FormItem className="relative">
                   <FormLabel>Password</FormLabel>
