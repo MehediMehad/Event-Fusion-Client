@@ -9,7 +9,6 @@ import {
   PieChart,
   Send,
   Settings,
-  SquareTerminal,
 } from "lucide-react";
 
 import {
@@ -25,7 +24,7 @@ import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import Link from "next/link";
 import Logo from "@/assets/svgs/Logo";
-import { MdOutlineReviews } from "react-icons/md";
+import { MdNotificationAdd, MdOutlineReviews } from "react-icons/md";
 
 
 import {
@@ -33,6 +32,7 @@ import {
   CalendarDays,
   Mail,
 } from 'lucide-react';
+import { TbNotification } from "react-icons/tb";
 
 
 const data = {
@@ -43,11 +43,6 @@ const data = {
       icon: LayoutDashboard,
       isActive: true,
     },
-    // {
-    //   title: "Create Event",
-    //   url: "/user/create-event",
-    //   icon: BiCalendarEvent,
-    // },
     {
       title: "My Events",
       url: "/user/my-events",
@@ -57,6 +52,11 @@ const data = {
       title: "Invitations",
       url: "/user/invitations",
       icon: Mail,
+    },
+    {
+      title: "Notification",
+      url: "/user/notification",
+      icon: TbNotification,
     },
     {
       title: "Reviews",

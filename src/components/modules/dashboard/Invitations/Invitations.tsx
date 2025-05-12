@@ -103,9 +103,9 @@ export default function Invitations({
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
-          <h3 className="mb-2 text-lg font-semibold">No invitations</h3>
+          <h3 className="mb-2 text-lg font-semibold">No Notification</h3>
           <p className="text-muted-foreground">
-            You don&apos;t have any pending invitations at the moment.
+            You don&apos;t have any pending Notification at the moment.
           </p>
         </div>
       )}
