@@ -17,6 +17,7 @@ interface FeaturedEventProps {
 
 export default function FeaturedEvent({ event }: FeaturedEventProps) {
   const { user } = useUser();
+  const userRole = user?.role.toLocaleLowerCase()
   
   const getEventBadge = () => {
     if (event.is_public && event.registration_fee > 0) {
@@ -117,9 +118,9 @@ export default function FeaturedEvent({ event }: FeaturedEventProps) {
                 <span>{event.location}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Users className="h-5 w-5" />
+                {/* <Users className="h-5 w-5" /> */}
                 {/* <span>{event.participantsCount} attending</span> */}
-                <span>20 attending</span>
+                {/* <span>20 attending</span> */}
               </div>
             </div>
             <div className="mt-4 flex flex-wrap gap-3">
@@ -147,7 +148,7 @@ export default function FeaturedEvent({ event }: FeaturedEventProps) {
                   className="bg-secondary hover:bg-secondary/90"
                   asChild
                 >
-                  <Link href={`/dashboard/create-event`}>
+                  <Link href={`/${userRole}/create-event`}>
                     Create Your Event
                   </Link>
                 </Button>

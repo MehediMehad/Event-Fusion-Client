@@ -97,7 +97,7 @@ export default function Navbar() {
           {user?.email ? (
             <>
               <div className="hidden md:flex gap-4 mr-5">
-                <Link href="/user/create-event">
+                <Link href={`/${userRole}/create-event`}>
                   <Button className="rounded-full ">Create Event</Button>
                 </Link>
               </div>
