@@ -5,6 +5,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import UserProvider, { useUser } from "@/context/UserContext";
 
 export default function DashboardLayout({
   children,
@@ -14,6 +15,7 @@ export default function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
+        <UserProvider>
       <SidebarInset>
         <header className="flex shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4 ">
@@ -23,6 +25,7 @@ export default function DashboardLayout({
         </header>
         <div className="p-0 pt-0 min-h-screen">{children}</div>
       </SidebarInset>
+      </UserProvider>
     </SidebarProvider>
   );
 }

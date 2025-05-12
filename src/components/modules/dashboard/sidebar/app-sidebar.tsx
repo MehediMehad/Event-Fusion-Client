@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  Bot,
   Frame,
   LifeBuoy,
   Map,
@@ -21,11 +20,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { NavMain } from "./nav-main";
-import { NavUser } from "./nav-user";
 import Link from "next/link";
 import Logo from "@/assets/svgs/Logo";
-import { MdNotificationAdd, MdOutlineReviews } from "react-icons/md";
-
+import {  MdOutlineReviews } from "react-icons/md";
 
 import {
   LayoutDashboard,
@@ -33,39 +30,48 @@ import {
   Mail,
 } from 'lucide-react';
 import { TbNotification } from "react-icons/tb";
+import { useUser } from "@/context/UserContext";
+
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  userRole?: "admin" | "user";
+}
+
+export function AppSidebar({ ...props }: AppSidebarProps) {
+  const {user}  =useUser()
+  const userRole = user?.role.toLocaleLowerCase()
 
 
 const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/user/dashboard",
+      url: `/${userRole}/dashboard`,
       icon: LayoutDashboard,
       isActive: true,
     },
     {
       title: "My Events",
-      url: "/user/my-events",
+      url: `/${userRole}/my-events`,
       icon: CalendarDays,
     },
     {
       title: "Invitations",
-      url: "/user/invitations",
+      url: `/${userRole}/invitations`,
       icon: Mail,
     },
     {
       title: "Notification",
-      url: "/user/notification",
+      url: `/${userRole}/notification`,
       icon: TbNotification,
     },
     {
       title: "Reviews",
-      url: "/user/reviews",
+      url: `/${userRole}/reviews`,
       icon: MdOutlineReviews,
     },
     {
       title: "Setting",
-      url: "/user/setting",
+      url: `/${userRole}/setting`,
       icon: Settings,
     },
     // {
@@ -135,7 +141,7 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
