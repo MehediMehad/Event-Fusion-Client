@@ -15,15 +15,26 @@ import { useUser } from "@/context/UserContext";
 import { usePathname, useRouter } from "next/navigation";
 import { protectedRoutes } from "@/contacts";
 import Logo from "./Logo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getMyInfo } from "@/services/User";
 
 export default function Navbar() {
   const { user, setIsLoading } = useUser();
-  
+  const [image, setImage] = useState("https://github.com/shadcn.png");
+
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const userRole = user?.role.toLocaleLowerCase();
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const userData = await getMyInfo();
+      setImage(userData?.data?.profilePhoto)
+    };
+
+    fetchUserInfo();
+  }, []);
 
   const handleLogOut = () => {
     logout();
@@ -94,7 +105,7 @@ export default function Navbar() {
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src={image || "https://github.com/shadcn.png"} />
                     <AvatarFallback>User</AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
