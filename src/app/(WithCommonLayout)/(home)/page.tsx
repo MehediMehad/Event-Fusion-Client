@@ -3,8 +3,8 @@ import { getAllUpcomingEvent } from "@/services/Event";
 
 const HomePage = async () => {
   const { data: events } = await getAllUpcomingEvent();
-  const eventData = events.filteredEvents;
-  const heroSection = events.heroEvent
+  const eventData = events?.filteredEvents;
+  const heroSection = events?.heroEvent
   
 
   if (!eventData) {
