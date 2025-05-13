@@ -7,7 +7,6 @@ import { useUser } from "@/context/UserContext";
 import Participants from "./Participants";
 import Reviews from "./Reviews";
 import { PSTATUS } from "../../CreateEvent/EventForm/utils";
-import { TReviewData } from "@/types/review";
 
 const EventInfo = ({ event }: { event: TEventResponse }) => {
   const { user } = useUser();

@@ -124,3 +124,34 @@ export const getAdminDashboardInfo = async () => {
     return { error: error.message || "Something went wrong" };
   }
 };
+
+export const getAllUsersWithStats = async (
+  filters: { searchTerm?: string },
+  options: { page?: string; limit?: string }
+) => {
+  const params = new URLSearchParams();
+
+  if (options.page) params.append("page", options.page);
+  if (options.limit) params.append("limit", options.limit);
+  if (filters.searchTerm) params.append("searchTerm", filters.searchTerm);
+
+  const url = `${process.env.NEXT_PUBLIC_BASE_API}/user/admin/users?${params.toString()}`;
+  console.log("Fetching from:", url); // 👈 Check this in terminal
+
+  try {
+    const res = await fetch(url, {
+      next: { tags: ["USER"] },
+      cache: "no-store"
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const data = await res.json();
+    return data ?? { success: false, message: "No data received" };
+  } catch (error: any) {
+    console.error("❌ Fetch Error:", error.message);
+    return { success: false, message: error.message };
+  }
+};
