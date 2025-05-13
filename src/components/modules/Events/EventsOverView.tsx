@@ -43,7 +43,7 @@ export default function EventsOverView({ events }: { events: EventType[] }) {
   const finalEvents = getFilteredEvents();
 
   return (
-    <div className="container mx-auto px-4 py-8 md:px-6 md:py-5">
+    <div className="container mx-auto px-4 py-8 md:py-5">
       <div className="mb-4 flex flex-col gap-4">
         <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
           Discover Events

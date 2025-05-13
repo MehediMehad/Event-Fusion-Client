@@ -1,3 +1,4 @@
+import { UsersManagement } from "@/components/modules/admin/Users/UsersManagement";
 import { getAllUsersWithStats } from "@/services/User";
 
 export const dynamic = "force-dynamic";
@@ -10,21 +11,17 @@ const UsersPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const limit = query.limit?.toString() || "10";
   const searchTerm = query.searchTerm?.toString() || "";
 
-  const result = await getAllUsersWithStats(
-    { searchTerm },
-    { page, limit }
-  );
+  const result = await getAllUsersWithStats({ searchTerm }, { page, limit });
 
-  console.log("😎😎 Fetched Data:", result.data); // Should have data now
+  console.log("😎😎 Fetched Data:", result.meta); // Should have data now
 
   if (!result.success || !result.data) {
     return <div>{result.message || "Failed to load user data"}</div>;
   }
 
   return (
-    <div>
-      <h1>This is Admin User List</h1>
-      <pre>{JSON.stringify(result.data, null, 2)}</pre>
+    <div className="">
+      <UsersManagement users={result.data} meta={result.meta} />
     </div>
   );
 };

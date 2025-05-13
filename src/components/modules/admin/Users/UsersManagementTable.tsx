@@ -1,136 +1,179 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { ReusableTable } from "./ReusableTable"
+import { useState } from "react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ReusableTable } from "./ReusableTable";
 
-export function UsersManagementTable() {
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 8
-  const totalPages = Math.ceil(productData.length / itemsPerPage)
+// Types
+export interface TUser {
+  id: string;
+  name: string;
+  email: string;
+  status: string;
+  profilePhoto: string;
+  totalJoinedEvents: number;
+  paidEventsCount: number;
+  publishedEventsCount: number;
+}
 
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const currentProducts = productData.slice(startIndex, startIndex + itemsPerPage)
+interface UsersManagementTableProps {
+  users: TUser[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+  };
+  onPageChange: (newPage: number) => void;
+}
+
+export function UsersManagementTable({
+  users,
+  meta,
+  onPageChange,
+}: UsersManagementTableProps) {
+  const itemsPerPage = meta.limit;
+  const totalPages = Math.ceil(meta.total / itemsPerPage);
 
   const columns = [
     {
-      header: "Product",
-      cell: (product: any) => (
+      header: "Name",
+      cell: (user: TUser) => (
         <div className="flex items-center gap-3">
           <Image
-            src={product.image || "/placeholder.svg"}
-            alt={product.name}
+            src={user.profilePhoto || "/placeholder.svg"}
+            alt={user.name}
             width={40}
-            height={60}
-            className="object-contain"
+            height={40}
+            className="rounded-full w-10 h-10"
           />
-          <span>{product.name}</span>
+          <span>{user.name}</span>
         </div>
       ),
     },
     {
-      header: "Product Catalogs",
-      cell: (product: any) => product.catalog,
+      header: "Email",
+      cell: (user: TUser) => user.email,
     },
     {
-      header: "Product Type",
-      cell: (product: any) => product.type,
+      header: "Status",
+      cell: (user: TUser) => (
+        <span
+          className={`inline-block px-2 py-1 rounded text-xs ${
+            user.status === "active"
+              ? "bg-green-100 text-green-800"
+              : "bg-red-100 text-red-800"
+          }`}
+        >
+          {user.status}
+        </span>
+      ),
     },
     {
-      header: "Price",
-      cell: (product: any) => product.price,
+      header: "Joined Events",
+      cell: (user: TUser) => user.totalJoinedEvents,
     },
     {
-      header: "Star",
-      cell: (product: any) => product.star,
+      header: "Paid Events",
+      cell: (user: TUser) => user.paidEventsCount,
     },
     {
-      header: "Product Quantity",
-      cell: (product: any) => product.quantity,
+      header: "Published Events",
+      cell: (user: TUser) => user.publishedEventsCount,
     },
     {
       header: "Action",
-      cell: (product: any) => (
+      cell: (user: TUser) => (
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" className="text-blue-600 border-blue-200 hover:bg-blue-50">
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-blue-600 border-blue-200 hover:bg-blue-50"
+          >
             Edit
           </Button>
-          <Button variant="outline" size="sm" className="text-red-600 border-red-200 hover:bg-red-50">
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-red-600 border-red-200 hover:bg-red-50"
+          >
             Delete
-          </Button>
-          <Button variant="outline" size="sm" className="text-blue-600 border-blue-200 hover:bg-blue-50">
-            Add incentive
           </Button>
         </div>
       ),
     },
-  ]
+  ];
 
   return (
     <div className="space-y-4">
-      <ReusableTable data={currentProducts} columns={columns} />
+      <ReusableTable data={users} columns={columns} />
 
       <div className="flex items-center justify-end space-x-2">
         <Button
           variant="outline"
           size="icon"
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
+          onClick={() => onPageChange(meta.page - 1)}
+          disabled={meta.page === 1}
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
 
         {[...Array(Math.min(5, totalPages))].map((_, i) => {
-          let pageNumber: number
+          let pageNumber: number;
 
           if (totalPages <= 5) {
-            pageNumber = i + 1
-          } else if (currentPage <= 3) {
-            pageNumber = i + 1
-            if (i === 4) pageNumber = totalPages
-          } else if (currentPage >= totalPages - 2) {
-            pageNumber = totalPages - 4 + i
-            if (i === 0) pageNumber = 1
+            pageNumber = i + 1;
+          } else if (meta.page <= 3) {
+            pageNumber = i + 1;
+            if (i === 4) pageNumber = totalPages;
+          } else if (meta.page >= totalPages - 2) {
+            pageNumber = totalPages - 4 + i;
+            if (i === 0) pageNumber = 1;
           } else {
-            pageNumber = currentPage - 2 + i
-            if (i === 0) pageNumber = 1
-            if (i === 4) pageNumber = totalPages
+            pageNumber = meta.page - 2 + i;
+            if (i === 0) pageNumber = 1;
+            if (i === 4) pageNumber = totalPages;
           }
 
-          const isEllipsis = (i === 0 && pageNumber !== 1) || (i === 4 && pageNumber !== totalPages)
+          const isEllipsis =
+            (i === 0 && pageNumber !== 1) ||
+            (i === 4 && pageNumber !== totalPages);
 
           if (isEllipsis) {
             return (
               <div key={i} className="px-3 py-2">
                 ...
               </div>
-            )
+            );
           }
 
           return (
             <Button
               key={i}
-              variant={currentPage === pageNumber ? "default" : "outline"}
+              variant={meta.page === pageNumber ? "default" : "outline"}
               size="icon"
-              onClick={() => setCurrentPage(pageNumber)}
-              className={currentPage === pageNumber ? "bg-red-600 hover:bg-red-700" : ""}
+              onClick={() => onPageChange(pageNumber)}
+              className={
+                meta.page === pageNumber
+                  ? "bg-red-600 hover:bg-red-700"
+                  : ""
+              }
             >
               {pageNumber}
             </Button>
-          )
+          );
         })}
 
         <Button
           variant="outline"
           size="icon"
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
+          onClick={() => onPageChange(meta.page + 1)}
+          disabled={meta.page === totalPages}
         >
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>
     </div>
-  )
+  );
 }

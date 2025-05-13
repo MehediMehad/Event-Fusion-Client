@@ -16,7 +16,7 @@ interface ReusableTableProps<T> {
 
 export function ReusableTable<T>({ data, columns, onRowClick }: ReusableTableProps<T>) {
   return (
-    <div className="border rounded-md">
+    <div className="border rounded-md container mx-10">
       <Table>
         <TableHeader>
           <TableRow>
