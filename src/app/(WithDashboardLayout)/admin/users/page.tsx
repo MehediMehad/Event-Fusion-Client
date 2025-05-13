@@ -13,8 +13,6 @@ const UsersPage = async ({ searchParams }: { searchParams: SearchParams }) => {
 
   const result = await getAllUsersWithStats({ searchTerm }, { page, limit });
 
-  console.log("😎😎 Fetched Data:", result.meta); // Should have data now
-
   if (!result.success || !result.data) {
     return <div>{result.message || "Failed to load user data"}</div>;
   }

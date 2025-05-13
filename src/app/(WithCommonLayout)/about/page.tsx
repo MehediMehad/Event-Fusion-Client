@@ -3,7 +3,7 @@ import Link from "next/link"
 import { ArrowRight, Calendar, Clock, CreditCard, Shield, Users } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function AboutPage() {
   return (
@@ -20,11 +20,11 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold">Our Mission</h2>
           <p className="text-lg text-muted-foreground">
             We believe that great events bring people together. Our mission is to create a platform where anyone can
-            organize and participate in events that matter to them, whether they're public gatherings or exclusive
+            organize and participate in events that matter to them, whether they public gatherings or exclusive
             private functions.
           </p>
           <p className="text-lg text-muted-foreground">
-            By providing powerful tools for event creators and a seamless experience for participants, we're building
+            By providing powerful tools for event creators and a seamless experience for participants, we building
             communities and fostering connections one event at a time.
           </p>
           <div className="pt-4">
@@ -63,7 +63,7 @@ export default function AboutPage() {
               <Users className="h-10 w-10 text-primary" />
               <CardTitle className="mt-4">Participation Control</CardTitle>
               <CardDescription>
-                Approve participants, send invitations, and manage your event's audience.
+                Approve participants, send invitations, and manage your events audience.
               </CardDescription>
             </CardHeader>
           </Card>

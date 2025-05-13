@@ -36,7 +36,7 @@ export default function ContactPage() {
       <div className="mb-16 text-center">
         <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Contact Us</h1>
         <p className="mx-auto max-w-3xl text-lg text-muted-foreground">
-          Have questions or feedback? We'd love to hear from you.
+          Have questions or feedback? We love to hear from you.
         </p>
       </div>
 
@@ -44,7 +44,7 @@ export default function ContactPage() {
         <Card>
           <CardHeader>
             <CardTitle>Send us a message</CardTitle>
-            <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
+            <CardDescription>Fill out the form below and well get back to you as soon as possible.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -113,9 +113,9 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-medium">Address</h3>
                   <p className="text-muted-foreground">
-                    123 Event Plaza, Suite 500
+                    123 Event Plaza Suite 500
                     <br />
-                    San Francisco, CA 94103
+                    San Francisco CA 94103
                     <br />
                     United States
                   </p>
@@ -126,7 +126,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-medium">Phone</h3>
                   <p className="text-muted-foreground">+1 (555) 123-4567</p>
-                  <p className="text-muted-foreground">Monday - Friday, 9am - 6pm PST</p>
+                  <p className="text-muted-foreground">Monday - Friday 9am - 6pm PST</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -149,7 +149,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="font-medium">How do I create an event?</h3>
                 <p className="text-muted-foreground">
-                  After logging in, navigate to your dashboard and click on "Create Event" to get started.
+                  After logging in, navigate to your dashboard and click on Create Event to get started.
                 </p>
               </div>
               <div>
