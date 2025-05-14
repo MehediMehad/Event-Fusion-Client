@@ -13,8 +13,8 @@ import ManageEvent from "./ManageEvent";
 
 const TopSession = ({ event }: { event: TEventResponse }) => {
   const { user } = useUser();
-  const userRole = user?.role.toLocaleLowerCase()
-  
+  const userRole = user?.role.toLocaleLowerCase();
+
   const router = useRouter();
   const [isJoining, setIsJoining] = useState(false);
   const isOrganizer = user?.userId === event.metadata.organizer.id;
@@ -57,18 +57,41 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
       setIsJoining(false);
     }
   };
+const handleInitiatePayment = async () => {
+  if (!user) {
+    router.push("/login");
+    return;
+  }
 
-  const getJoinButtonText = () => {
-    if (!event.metadata.is_public && event.metadata.registration_fee > 0) {
-      return `Request & Pay ${formatCurrency(event.metadata.registration_fee)}`;
-    } else if (!event.metadata.is_public) {
-      return "Request to Join";
-    } else if (event.metadata.registration_fee > 0) {
-      return `Pay & Join • ${formatCurrency(event.metadata.registration_fee)}`;
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/payment/init-payment/${event.metadata.id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.userId, // Sending user.id in the body
+        }),
+      }
+    );
+
+    const data = await res.json();
+    const paymentUrl = data?.data?.paymentUrl;
+    console.log("☑️☑️",paymentUrl);
+    
+
+    if (res.ok && paymentUrl) {
+      window.location.href = paymentUrl;
     } else {
-      return "Join for Free";
+      toast.error(data?.message || "Payment initiation failed.");
     }
-  };
+  } catch (error) {
+    toast.error("Something went wrong during payment initiation.");
+    console.error(error);
+  }
+};
 
   const handleAddToHeroSection = async (eventId: string) => {
     try {
@@ -165,27 +188,52 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
             <ManageEvent event={event} />
           ) : (
             <>
-              <Button
-                className={
-                  event.metadata.registration_fee > 0
-                    ? "bg-primary hover:bg-primary/90"
-                    : "bg-primary hover:bg-primary/90"
-                }
-                onClick={handleJoinEvent}
-                disabled={isJoining || isApproved || isRejected}
-              >
-                {isJoining
-                  ? "Processing..."
-                  : isApproved
-                  ? "Already Registered"
-                  : isRejected
-                  ? "Your Request Was Rejected"
-                  : getJoinButtonText()}
-              </Button>
+              {event.metadata.registration_fee > 0 && (
+                <>
+                  <Button
+                    className="bg-green-600 hover:bg-green-700"
+                    onClick={handleInitiatePayment}
+                    disabled={isApproved || isRejected}
+                  >
+                    Pay & Join •{" "}
+                    {formatCurrency(event.metadata.registration_fee)}
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    onClick={handleJoinEvent}
+                    disabled={isJoining || isApproved || isRejected}
+                  >
+                    {isJoining
+                      ? "Processing..."
+                      : isApproved
+                      ? "Already Registered"
+                      : isRejected
+                      ? "Your Request Was Rejected"
+                      : "Request to Join"}
+                  </Button>
+                </>
+              )}
+
+              {event.metadata.registration_fee === 0 && (
+                <Button
+                  className="bg-primary hover:bg-primary/90"
+                  onClick={handleJoinEvent}
+                  disabled={isJoining || isApproved || isRejected}
+                >
+                  {isJoining
+                    ? "Processing..."
+                    : isApproved
+                    ? "Already Registered"
+                    : isRejected
+                    ? "Your Request Was Rejected"
+                    : "Join for Free"}
+                </Button>
+              )}
             </>
           )}
 
-          { userRole==="admin" && (
+          {userRole === "admin" && (
             <Button
               className="bg-green-600 hover:bg-green-700"
               onClick={() => handleAddToHeroSection(event.metadata.id)}
