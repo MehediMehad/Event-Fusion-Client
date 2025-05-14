@@ -45,11 +45,13 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
         url: `/${userRole}/dashboard`,
         icon: LayoutDashboard,
         isActive: true,
+
       },
       {
-        title: "Events",
+        title: "Events",   // This Page can see only admin
         url: `/${userRole}/users`,
         icon: Users2Icon,
+        adminOnly: true, // 👈 Admin-only
       },
       {
         title: "My Events",
@@ -60,6 +62,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
         title: "Participants",
         url: `/${userRole}/participants`,
         icon: UsersIcon,
+        adminOnly: true, // 👈 Admin-only
       },
       {
         title: "Invitations",
@@ -72,9 +75,10 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
         icon: TbNotification,
       },
       {
-        title: "Reviews",
+        title: "Reviews", // This Page can see only admin
         url: `/${userRole}/reviews`,
         icon: MdOutlineReviews,
+        adminOnly: true, // 👈 Admin-only
       },
       {
         title: "Setting",
@@ -84,6 +88,11 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
     ],
 
   };
+
+   // Filter out admin-only items if the user is not an admin
+  const filteredNavItems = data.navMain.filter((item) => !item.adminOnly || userRole === "admin");
+  
+
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -101,7 +110,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={filteredNavItems} />
       </SidebarContent>
       {/* <SidebarFooter>
         <NavUser />
