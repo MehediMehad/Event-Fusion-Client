@@ -15,6 +15,7 @@ import { getNonParticipants } from "@/services/Event";
 import { inviteUserAction } from "@/services/Invitation";
 import { useUser } from "@/context/UserContext";
 import { TEventResponse } from "@/types/event";
+import Image from "next/image";
 
 type TNonParticipant = {
   id: string;
@@ -96,7 +97,7 @@ export default function InviteUsersModal({
                 >
                   <div className="flex items-center gap-3">
                     {user.profilePhoto ? (
-                      <img
+                      <Image
                         src={user.profilePhoto}
                         alt={user.name}
                         className="w-8 h-8 rounded-full object-cover"

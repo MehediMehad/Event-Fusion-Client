@@ -22,9 +22,12 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
   const participationStatus = event.participation?.find(
     (p) => p.userId === user?.userId
   )?.status;
+  console.log(participationStatus);
+  
 
   const isApproved = participationStatus === "APPROVED";
   const isRejected = participationStatus === "REJECTED";
+  const isPadding = participationStatus === "PENDING";
 
   // Check if user has joined the event
   const handleJoinEvent = async () => {
@@ -57,6 +60,8 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
       setIsJoining(false);
     }
   };
+
+
 const handleInitiatePayment = async () => {
   if (!user) {
     router.push("/login");
@@ -79,7 +84,6 @@ const handleInitiatePayment = async () => {
 
     const data = await res.json();
     const paymentUrl = data?.data?.paymentUrl;
-    console.log("☑️☑️",paymentUrl);
     
 
     if (res.ok && paymentUrl) {
@@ -198,28 +202,14 @@ const handleInitiatePayment = async () => {
                     Pay & Join •{" "}
                     {formatCurrency(event.metadata.registration_fee)}
                   </Button>
-
-                  <Button
-                    variant="outline"
-                    onClick={handleJoinEvent}
-                    disabled={isJoining || isApproved || isRejected}
-                  >
-                    {isJoining
-                      ? "Processing..."
-                      : isApproved
-                      ? "Already Registered"
-                      : isRejected
-                      ? "Your Request Was Rejected"
-                      : "Request to Join"}
-                  </Button>
                 </>
               )}
 
-              {event.metadata.registration_fee === 0 && (
+              {event.metadata.registration_fee === 0 && event.metadata.is_public && (
                 <Button
                   className="bg-primary hover:bg-primary/90"
                   onClick={handleJoinEvent}
-                  disabled={isJoining || isApproved || isRejected}
+                  disabled={isJoining || isApproved || isRejected || isPadding}
                 >
                   {isJoining
                     ? "Processing..."
@@ -227,7 +217,27 @@ const handleInitiatePayment = async () => {
                     ? "Already Registered"
                     : isRejected
                     ? "Your Request Was Rejected"
+                    : isPadding
+                    ? "Your Request Padding"
                     : "Join for Free"}
+                </Button>
+              )}
+
+              {!event.metadata.is_public && event.metadata.registration_fee === 0 && (
+                <Button
+                  className="bg-primary hover:bg-primary/90"
+                  onClick={handleJoinEvent}
+                  disabled={isJoining || isApproved || isRejected || isPadding}
+                >
+                  {isJoining
+                    ? "Processing..."
+                    : isApproved
+                    ? "Already Joined"
+                    : isRejected
+                    ? "Your Request Was Rejected"
+                    : isPadding
+                    ? "Your Request Padding"
+                    : "Request Join for Free"}
                 </Button>
               )}
             </>
