@@ -19,7 +19,7 @@ const EventInfo = ({ event }: { event: TEventResponse }) => {
   
 
   return (
-    <div className="w-[60%]">
+    <div className="">
     <Tabs defaultValue="participants" className="mb-8">
       <TabsList>
         <TabsTrigger value="participants">

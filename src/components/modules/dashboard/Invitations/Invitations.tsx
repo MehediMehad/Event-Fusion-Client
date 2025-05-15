@@ -16,8 +16,10 @@ import { toast } from "sonner";
 
 export default function Invitations({
   invitations,
+  tittle,
 }: {
   invitations: TInvitations[];
+  tittle: "Notification" | "Invitations"
 }) {
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
@@ -34,7 +36,7 @@ export default function Invitations({
 
   return (
     <div className="grid gap-6">
-      <h1 className="text-3xl font-bold tracking-tight">Invitations</h1>
+      <h1 className="text-3xl font-bold tracking-tight">{tittle}</h1>
 
       {invitations.length > 0 ? (
         <div className="space-y-4">

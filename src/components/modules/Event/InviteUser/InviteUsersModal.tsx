@@ -98,6 +98,8 @@ export default function InviteUsersModal({
                   <div className="flex items-center gap-3">
                     {user.profilePhoto ? (
                       <Image
+                        width={50}
+                        height={50}
                         src={user.profilePhoto}
                         alt={user.name}
                         className="w-8 h-8 rounded-full object-cover"

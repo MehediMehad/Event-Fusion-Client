@@ -19,7 +19,6 @@ export default async function EventPage({ params }: {
         <div className="">
           {/* Main content */}
           <MainContent event={event} />
-          {/* <DetailsSidebar event={event} /> */}
         </div>
       </div>
     </div>

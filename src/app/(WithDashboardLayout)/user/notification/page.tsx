@@ -21,7 +21,7 @@ const NotificationPage = async () => {
   // Render component with valid data
   return (
     <div className="p-10">
-      <Invitations invitations={data.data} />
+      <Invitations tittle="Notification" invitations={data.data} />
     </div>
   );
 };

@@ -19,15 +19,22 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
   const [isJoining, setIsJoining] = useState(false);
   const isOrganizer = user?.userId === event.metadata.organizer.id;
   // ✅ Ensure this is always a boolean
-  const participationStatus = event.participation?.find(
-    (p) => p.userId === user?.userId
-  )?.status;
-  console.log(participationStatus);
-  
+  // const participationStatus = event.participation?.find(
+  //   (p) => p.userId === user?.userId
+  // )?.status;
 
+  const participation = event.participation?.find(
+    (p) => p.userId === user?.userId
+  );
+
+  const participationStatus = participation?.status;
+  // ✅ Ensure this is always a boolean
   const isApproved = participationStatus === "APPROVED";
   const isRejected = participationStatus === "REJECTED";
-  const isPadding = participationStatus === "PENDING";
+  const isPending = participationStatus === "PENDING";
+  const isBanned = participationStatus === "BANNED";
+  const isPublicEvent = event.metadata.is_public;
+  const isFreeEvent = event.metadata.registration_fee === 0;
 
   // Check if user has joined the event
   const handleJoinEvent = async () => {
@@ -61,41 +68,39 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
     }
   };
 
-
-const handleInitiatePayment = async () => {
-  if (!user) {
-    router.push("/login");
-    return;
-  }
-
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/payment/init-payment/${event.metadata.id}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user.userId, // Sending user.id in the body
-        }),
-      }
-    );
-
-    const data = await res.json();
-    const paymentUrl = data?.data?.paymentUrl;
-    
-
-    if (res.ok && paymentUrl) {
-      window.location.href = paymentUrl;
-    } else {
-      toast.error(data?.message || "Payment initiation failed.");
+  const handleInitiatePayment = async () => {
+    if (!user) {
+      router.push("/login");
+      return;
     }
-  } catch (error) {
-    toast.error("Something went wrong during payment initiation.");
-    console.error(error);
-  }
-};
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API}/payment/init-payment/${event.metadata.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: user.userId, // Sending user.id in the body
+          }),
+        }
+      );
+
+      const data = await res.json();
+      const paymentUrl = data?.data?.paymentUrl;
+
+      if (res.ok && paymentUrl) {
+        window.location.href = paymentUrl;
+      } else {
+        toast.error(data?.message || "Payment initiation failed.");
+      }
+    } catch (error) {
+      toast.error("Something went wrong during payment initiation.");
+      console.error(error);
+    }
+  };
 
   const handleAddToHeroSection = async (eventId: string) => {
     try {
@@ -111,8 +116,8 @@ const handleInitiatePayment = async () => {
   };
 
   return (
-    <div className="w-[60%]">
-      <div className="mb-6 mt-[-20px] rounded-lg bg-card p-6 border">
+    <div className="">
+      <div className="mb-6 rounded-lg bg-card p-6 border">
         {/* Badges */}
         <div className="flex gap-1">
           {event.metadata.is_public !== undefined && (
@@ -192,42 +197,31 @@ const handleInitiatePayment = async () => {
             <ManageEvent event={event} />
           ) : (
             <>
+              {/* Paid Event Button */}
               {event.metadata.registration_fee > 0 && (
-                <>
-                  <Button
-                    className="bg-green-600 hover:bg-green-700"
-                    onClick={handleInitiatePayment}
-                    disabled={isApproved || isRejected}
-                  >
-                    Pay & Join •{" "}
-                    {formatCurrency(event.metadata.registration_fee)}
-                  </Button>
-                </>
-              )}
-
-              {event.metadata.registration_fee === 0 && event.metadata.is_public && (
                 <Button
-                  className="bg-primary hover:bg-primary/90"
-                  onClick={handleJoinEvent}
-                  disabled={isJoining || isApproved || isRejected || isPadding}
+                  className="bg-green-600 hover:bg-green-700"
+                  onClick={handleInitiatePayment}
+                  disabled={isApproved || isRejected || isPending}
                 >
-                  {isJoining
-                    ? "Processing..."
-                    : isApproved
+                  {isApproved
                     ? "Already Registered"
+                    : isPending
+                    ? "Joining Pending"
                     : isRejected
                     ? "Your Request Was Rejected"
-                    : isPadding
-                    ? "Your Request Padding"
-                    : "Join for Free"}
+                    : `Pay & Join • ${formatCurrency(
+                        event.metadata.registration_fee
+                      )}`}
                 </Button>
               )}
 
-              {!event.metadata.is_public && event.metadata.registration_fee === 0 && (
+              {/* Free Public or Private Event Buttons */}
+              {event.metadata.registration_fee === 0 && (
                 <Button
                   className="bg-primary hover:bg-primary/90"
                   onClick={handleJoinEvent}
-                  disabled={isJoining || isApproved || isRejected || isPadding}
+                  disabled={isJoining || isApproved || isRejected || isPending}
                 >
                   {isJoining
                     ? "Processing..."
@@ -235,9 +229,11 @@ const handleInitiatePayment = async () => {
                     ? "Already Joined"
                     : isRejected
                     ? "Your Request Was Rejected"
-                    : isPadding
-                    ? "Your Request Padding"
-                    : "Request Join for Free"}
+                    : isPending
+                    ? "Request Pending"
+                    : event.metadata.is_public
+                    ? "Join for Free"
+                    : "Request to Join"}
                 </Button>
               )}
             </>

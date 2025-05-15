@@ -22,7 +22,7 @@ const Participants = ({ event }: { event: TEventResponse }) => {
 
   // Helper functions
   const getPendingParticipants = () => {
-    return event.participation.filter((p) => p.status === PSTATUS.PENDING );
+    return event.participation.filter((p) => p.status === PSTATUS.PENDING);
   };
   const getApprovedParticipants = () => {
     return event.participation.filter((p) => p.status === "APPROVED");
@@ -90,7 +90,11 @@ const Participants = ({ event }: { event: TEventResponse }) => {
                   <Button
                     size="sm"
                     onClick={() =>
-                      handleParticipantAction(participant.userId, PSTATUS.APPROVED, event.metadata.id)
+                      handleParticipantAction(
+                        participant.userId,
+                        PSTATUS.APPROVED,
+                        event.metadata.id
+                      )
                     }
                   >
                     <Check className="mr-2 h-4 w-4" /> Approve
@@ -99,7 +103,11 @@ const Participants = ({ event }: { event: TEventResponse }) => {
                     size="sm"
                     variant="outline"
                     onClick={() =>
-                      handleParticipantAction(participant.userId, PSTATUS.REJECTED, event.metadata.id)
+                      handleParticipantAction(
+                        participant.userId,
+                        PSTATUS.REJECTED,
+                        event.metadata.id
+                      )
                     }
                   >
                     <X className="mr-2 h-4 w-4" /> Reject
@@ -108,7 +116,11 @@ const Participants = ({ event }: { event: TEventResponse }) => {
                     size="sm"
                     variant="destructive"
                     onClick={() =>
-                      handleParticipantAction(participant.userId, PSTATUS.BANNED, event.metadata.id)
+                      handleParticipantAction(
+                        participant.userId,
+                        PSTATUS.BANNED,
+                        event.metadata.id
+                      )
                     }
                   >
                     <X className="mr-2 h-4 w-4" /> Banned
@@ -154,7 +166,11 @@ const Participants = ({ event }: { event: TEventResponse }) => {
                   <DropdownMenuItem
                     className="text-destructive"
                     onClick={() =>
-                      handleParticipantAction(participant.userId, PSTATUS.BANNED, event.metadata.id)
+                      handleParticipantAction(
+                        participant.userId,
+                        PSTATUS.BANNED,
+                        event.metadata.id
+                      )
                     }
                   >
                     <Ban className="mr-2 h-4 w-4" /> Ban Participant

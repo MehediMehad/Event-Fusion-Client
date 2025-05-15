@@ -5,8 +5,10 @@ import { MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { TEventResponse } from "@/types/event";
 
-const DetailsSidebar = ({ event }: { event: any }) => {
+const DetailsSidebar = ({ event }: { event: TEventResponse }) => {
+  
   return (
     <div className="space-y-6">
       <Card>
@@ -15,45 +17,44 @@ const DetailsSidebar = ({ event }: { event: any }) => {
           <div className="flex items-center gap-3">
             <div className="relative h-12 w-12 overflow-hidden rounded-full bg-muted">
               <Image
-                src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2"
-                alt={event.organizer}
+                src={event.metadata.organizer.profilePhoto ||"https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2"}
+                alt={event.metadata.organizer.name}
                 fill
                 className="object-cover"
               />
             </div>
             <div>
-              <p className="font-medium">{event.organizer}</p>
-              <p className="text-sm text-muted-foreground">Event Organizer</p>
+              <p className="font-medium">{event.metadata.organizer.name}</p>
+              <p className="text-sm text-muted-foreground">{event.metadata.organizer.email}</p>
             </div>
           </div>
           <Separator className="my-4" />
-          <p className="text-sm text-muted-foreground">
+          {/* <p className="text-sm text-muted-foreground">
             Experienced event organizer with a focus on tech and professional
             development events.
           </p>
           <Button variant="ghost" className="mt-4 w-full">
             Contact Organizer
-          </Button>
+          </Button> */}
         </CardContent>
       </Card>
 
-      <Card>
+      {/* <Card>
         <CardContent className="p-6">
           <h2 className="mb-4 text-xl font-semibold">Location</h2>
           <div className="aspect-video overflow-hidden rounded-md bg-muted">
-            {/* In a real app, you'd use a map component here */}
             <div className="flex h-full items-center justify-center">
               <MapPin className="h-8 w-8 text-muted-foreground" />
             </div>
           </div>
-          <p className="mt-3 font-medium">{event.location}</p>
+          <p className="mt-3 font-medium">{event.metadata.location}</p>
           <Button variant="outline" className="mt-4 w-full">
             Get Directions
           </Button>
         </CardContent>
-      </Card>
+      </Card> */}
 
-      <Card>
+      {/* <Card>
         <CardContent className="p-6">
           <h2 className="mb-4 text-xl font-semibold">Share Event</h2>
           <div className="flex gap-2">
@@ -111,7 +112,7 @@ const DetailsSidebar = ({ event }: { event: any }) => {
             </Button>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 };

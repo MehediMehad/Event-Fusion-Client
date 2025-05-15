@@ -20,51 +20,51 @@ export default function EventCard({ event, compact = false }: EventCardProps) {
             src={event.coverPhoto}
             alt={event.title}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition-transform duration-500 group-hover:scale-100"
           />
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-black/10 to-transparent"></div>
-        {/* Badges */}
-        <div className="absolute right-2 top-2 flex gap-1">
-          {event.is_public !== undefined && (
+          {/* Badges */}
+          <div className="absolute right-2 top-2 flex gap-1">
+            {event.is_public !== undefined && (
+              <Badge
+                variant="secondary"
+                className={`gap-1 ${
+                  event.is_public
+                    ? "bg-green-100 text-green-700 border border-green-300 hover:bg-green-200"
+                    : "bg-red-100 text-red-700 border border-red-300 hover:bg-red-200"
+                } backdrop-blur-md transition-all`}
+              >
+                {event.is_public ? (
+                  <>
+                    <Lock className="h-3 w-3" /> Public
+                  </>
+                ) : (
+                  <>
+                    <Lock className="h-3 w-3" /> Private
+                  </>
+                )}
+              </Badge>
+            )}
             <Badge
               variant="secondary"
               className={`gap-1 ${
-                event.is_public
-                  ? "bg-green-100 text-green-700 border border-green-300 hover:bg-green-200"
-                  : "bg-red-100 text-red-700 border border-red-300 hover:bg-red-200"
+                event.registration_fee > 0
+                  ? "bg-yellow-100 text-yellow-700 border border-yellow-300 hover:bg-yellow-200"
+                  : "bg-green-100 text-green-700 border border-green-300 hover:bg-green-200"
               } backdrop-blur-md transition-all`}
             >
-              {event.is_public ? (
+              {event.registration_fee > 0 ? (
                 <>
-                  <Lock className="h-3 w-3" /> Public
+                  <DollarSign className="h-3 w-3" />$
+                  {event.registration_fee.toFixed(2)}
                 </>
               ) : (
-                <>
-                  <Lock className="h-3 w-3" /> Private
-                </>
+                "Free"
               )}
             </Badge>
-          )}
-          <Badge
-            variant="secondary"
-            className={`gap-1 ${
-              event.registration_fee > 0
-                ? "bg-yellow-100 text-yellow-700 border border-yellow-300 hover:bg-yellow-200"
-                : "bg-green-100 text-green-700 border border-green-300 hover:bg-green-200"
-            } backdrop-blur-md transition-all`}
-          >
-            {event.registration_fee > 0 ? (
-              <>
-                <DollarSign className="h-3 w-3" />$
-                {event.registration_fee.toFixed(2)}
-              </>
-            ) : (
-              "Free"
-            )}
-          </Badge>
-        </div>
-
+          </div>
         </div>
         <CardContent className={compact ? "p-3" : "p-5"}>
           <h3
@@ -79,16 +79,6 @@ export default function EventCard({ event, compact = false }: EventCardProps) {
               {event.description}
             </p>
           )}
-          <div
-            className={`mt-2 flex items-center gap-2 text-xs text-base/70 ${
-              compact ? "" : "mt-4"
-            }`}
-          >
-            <Calendar className="h-3.5 w-3.5" />
-            <span>
-              {formatDate(event.date_time)} {formatTime(event.date_time)}
-            </span>
-          </div>
         </CardContent>
         <CardFooter
           className={`border-t px-5 py-3 ${
@@ -97,8 +87,16 @@ export default function EventCard({ event, compact = false }: EventCardProps) {
         >
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-1.5 text-xs text-base/80">
-              <Users className="h-3.5 w-3.5" />
-              <span>20 attendees</span>
+              <div
+                className={`flex items-center gap-2 text-xs text-base/70 ${
+                  compact ? "" : ""
+                }`}
+              >
+                <Calendar className="h-3.5 w-3.5" />
+                <span>
+                  {formatDate(event.date_time)} {formatTime(event.date_time)}
+                </span>
+              </div>
             </div>
             <p className="text-xs font-medium text-base/90 transition-colors">
               Hosted by {event.organizer?.name}
