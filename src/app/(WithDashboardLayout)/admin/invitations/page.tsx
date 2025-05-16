@@ -6,6 +6,8 @@ export const dynamic = "force-dynamic";
 
 const DashboardInvitationsPage = async () => {
   const data = await getNotification();
+  console.log("🐢🐢", data);
+  
   
 
   // Handle error case
@@ -21,7 +23,7 @@ const DashboardInvitationsPage = async () => {
   // Render component with valid data
   return (
     <div className="p-10">
-      <Invitations invitations={data.data} />
+      <Invitations tittle="Invitations" invitations={data?.notification} />
     </div>
   );
 };

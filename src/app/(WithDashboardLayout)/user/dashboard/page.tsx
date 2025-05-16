@@ -14,7 +14,7 @@ export default async function UserDashboard() {
   
   return (
     <div>
-      <DashboardOverview events={data.data} notification={notification.data} dashboardSummary={dashboardData.data.dashboardSummary} />
+      <DashboardOverview events={data.data} notification={notification.notification} dashboardSummary={dashboardData.data.dashboardSummary} />
     </div>
   );
 }

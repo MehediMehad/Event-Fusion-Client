@@ -20,7 +20,7 @@ export default function DashboardOverview({
       <TopSection />
       <DashboardSummary dashboardSummary={dashboardSummary} />
       <DashboardMyEvents events={events} className="hidden" />
-      <PendingNotification notification={notification} />
+      {/* <PendingNotification notification={notification} /> */}
     </div>
   );
 }

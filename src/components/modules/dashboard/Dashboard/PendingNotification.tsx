@@ -45,9 +45,9 @@ const PendingNotification = ({
           </Button>
         </CardHeader>
       </Card>
-      {notification.length > 0 ? (
+      {notification?.length > 0 ? (
         <div className="space-y-4">
-          {notification.map((invitation: TInvitations) => (
+          {notification?.map((invitation: TInvitations) => (
             <div
               key={invitation.id}
               className="flex flex-col items-start justify-between gap-4 rounded-lg border p-4 sm:flex-row sm:items-center"

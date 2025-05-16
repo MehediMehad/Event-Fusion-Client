@@ -83,6 +83,8 @@ export const getNotification = async () => {
     }
 
     const data = await res.json();
+    console.log('😎😎', data);
+    
     return data;
   } catch (error: any) {
     console.error("Error fetching my events:", error.message);
