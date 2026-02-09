@@ -1,4 +1,4 @@
-import Invitations from "@/components/modules/Dashboard/Invitations/Invitations";
+import Invitations from "@/components/modules/dashboard/Invitations/Invitations";
 import { getNotification } from "@/services/Invitation";
 
 // 🔁 Opt out of static generation since this uses cookies or user-specific data
@@ -7,8 +7,6 @@ export const dynamic = "force-dynamic";
 const DashboardInvitationsPage = async () => {
   const data = await getNotification();
   console.log("🐢🐢", data);
-  
-  
 
   // Handle error case
   if (!data || data.error) {

@@ -38,20 +38,17 @@ const Reviews = ({ event }: { event: TEventResponse }) => {
   // const [reviews, setReviews] = React.useState<ReviewType[]>([]);
 
   const isOrganizer = user?.userId === event.metadata.organizer.id;
-  const isPastEvent = true; // new Date(event.metadata.date_time) < new Date();
 
   const hasJoined = event.participation.some(
-    (p) => p.userId === user?.userId && p.status === PSTATUS.APPROVED
+    (p) => p.userId === user?.userId && p.status === PSTATUS.APPROVED,
   );
-  const hasReviewed = event.review.some(
-    (r) => r.user.id === user?.userId
-  );
+  const hasReviewed = event.review.some((r) => r.user.id === user?.userId);
 
-  console.log("😂😂",event);
+  console.log("😂😂", event);
 
   const handleSubmitReview = async () => {
-    if (!rating) return toast.warning("Add Rating")
-    if (!newReview.trim()) return toast.warning("Wright Review")
+    if (!rating) return toast.warning("Add Rating");
+    if (!newReview.trim()) return toast.warning("Wright Review");
 
     try {
       const res = await SendReviewAction({

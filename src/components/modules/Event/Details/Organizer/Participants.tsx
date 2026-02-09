@@ -49,11 +49,6 @@ const Participants = ({ event }: { event: TEventResponse }) => {
     }
   };
 
-  const isPastEvent = new Date(event.metadata.date_time) < new Date();
-
-  const hasJoined = event.participation.some(
-    (p) => p.userId === user?.userId && p.status === PSTATUS.APPROVED
-  );
 
   return (
     <div className="rounded-lg border p-6">

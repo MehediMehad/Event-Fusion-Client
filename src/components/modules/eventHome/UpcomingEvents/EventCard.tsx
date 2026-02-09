@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, Users, DollarSign, Lock } from "lucide-react";
+import { Calendar, DollarSign, Lock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { formatDate, formatTime } from "@/lib/format";

@@ -24,7 +24,7 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
   // )?.status;
 
   const participation = event.participation?.find(
-    (p) => p.userId === user?.userId
+    (p) => p.userId === user?.userId,
   );
 
   const participationStatus = participation?.status;
@@ -32,9 +32,6 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
   const isApproved = participationStatus === "APPROVED";
   const isRejected = participationStatus === "REJECTED";
   const isPending = participationStatus === "PENDING";
-  const isBanned = participationStatus === "BANNED";
-  const isPublicEvent = event.metadata.is_public;
-  const isFreeEvent = event.metadata.registration_fee === 0;
 
   // Check if user has joined the event
   const handleJoinEvent = async () => {
@@ -85,7 +82,7 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
           body: JSON.stringify({
             userId: user.userId, // Sending user.id in the body
           }),
-        }
+        },
       );
 
       const data = await res.json();
@@ -207,12 +204,12 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
                   {isApproved
                     ? "Already Registered"
                     : isPending
-                    ? "Joining Pending"
-                    : isRejected
-                    ? "Your Request Was Rejected"
-                    : `Pay & Join • ${formatCurrency(
-                        event.metadata.registration_fee
-                      )}`}
+                      ? "Joining Pending"
+                      : isRejected
+                        ? "Your Request Was Rejected"
+                        : `Pay & Join • ${formatCurrency(
+                            event.metadata.registration_fee,
+                          )}`}
                 </Button>
               )}
 
@@ -226,14 +223,14 @@ const TopSession = ({ event }: { event: TEventResponse }) => {
                   {isJoining
                     ? "Processing..."
                     : isApproved
-                    ? "Already Joined"
-                    : isRejected
-                    ? "Your Request Was Rejected"
-                    : isPending
-                    ? "Request Pending"
-                    : event.metadata.is_public
-                    ? "Join for Free"
-                    : "Request to Join"}
+                      ? "Already Joined"
+                      : isRejected
+                        ? "Your Request Was Rejected"
+                        : isPending
+                          ? "Request Pending"
+                          : event.metadata.is_public
+                            ? "Join for Free"
+                            : "Request to Join"}
                 </Button>
               )}
             </>

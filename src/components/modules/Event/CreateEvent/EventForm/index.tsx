@@ -34,10 +34,9 @@ import { addEvent } from "@/services/Event";
 import { useUser } from "@/context/UserContext";
 import { eventFormSchema } from "./eventValidation";
 
-
 export default function EventForm() {
   const { user } = useUser();
-  
+
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const [imagePreview, setImagePreview] = useState<string[] | []>([]);
   const router = useRouter();
@@ -45,17 +44,17 @@ export default function EventForm() {
   const defaultValues = {
     title: "",
     description: "",
-    date: new Date(),  
+    date: new Date(),
     time: new Date(),
-    venue: "",        
-    location: "",      
+    venue: "",
+    location: "",
     is_public: true,
     is_paid: false,
-    registration_fee: "", 
+    registration_fee: "",
   };
   const form = useForm({
     resolver: zodResolver(eventFormSchema),
-    defaultValues
+    defaultValues,
   });
 
   const {
@@ -72,7 +71,7 @@ export default function EventForm() {
 
     // Format date and time
     const formattedDateTime = format(data.time, "yyyy-MM-dd HH:mm");
-    
+
     const eventData = {
       organizerId: user.userId,
       event: {
@@ -84,7 +83,7 @@ export default function EventForm() {
         is_public: data.is_public,
         is_paid: data.is_paid,
         registration_fee: data.is_paid ? Number(data.registration_fee || 0) : 0,
-        status: "UPCOMING"
+        status: "UPCOMING",
       },
     };
 
@@ -98,7 +97,7 @@ export default function EventForm() {
     //     formData.append("images", file);
     //   });
     // }
-  
+
     try {
       const res = await addEvent(formData);
 
@@ -113,7 +112,7 @@ export default function EventForm() {
       toast.error("An error occurred while creating the event");
     }
   };
-  
+
   function handleDateSelect(date: Date | undefined) {
     if (date) {
       const currentTime = form.getValues("time") || new Date();
@@ -121,7 +120,7 @@ export default function EventForm() {
       newDateTime.setHours(
         currentTime.getHours(),
         currentTime.getMinutes(),
-        currentTime.getSeconds()
+        currentTime.getSeconds(),
       );
       form.setValue("time", newDateTime);
     }
@@ -204,7 +203,7 @@ export default function EventForm() {
                             variant={"outline"}
                             className={cn(
                               "w-full pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
+                              !field.value && "text-muted-foreground",
                             )}
                           >
                             {field.value ? (
@@ -244,7 +243,7 @@ export default function EventForm() {
                                       onClick={() =>
                                         handleTimeChange(
                                           "hour",
-                                          hour.toString()
+                                          hour.toString(),
                                         )
                                       }
                                     >
@@ -261,7 +260,7 @@ export default function EventForm() {
                               <div className="flex sm:flex-col p-2">
                                 {Array.from(
                                   { length: 12 },
-                                  (_, i) => i * 5
+                                  (_, i) => i * 5,
                                 ).map((minute) => (
                                   <Button
                                     key={minute}
@@ -276,7 +275,7 @@ export default function EventForm() {
                                     onClick={() =>
                                       handleTimeChange(
                                         "minute",
-                                        minute.toString()
+                                        minute.toString(),
                                       )
                                     }
                                   >

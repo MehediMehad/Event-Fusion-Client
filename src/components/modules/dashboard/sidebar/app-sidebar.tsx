@@ -1,27 +1,17 @@
 "use client";
 
 import * as React from "react";
-import {
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings,
-  Users2Icon,
-  UsersIcon,
-} from "lucide-react";
+import { Settings, Users2Icon, UsersIcon } from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { NavMain } from "./nav-main";
+// import { NavMain } from "./nav-main";
 import Link from "next/link";
 import Logo from "@/assets/svgs/Logo";
 import { MdOutlineReviews } from "react-icons/md";
@@ -29,6 +19,7 @@ import { MdOutlineReviews } from "react-icons/md";
 import { LayoutDashboard, CalendarDays, Mail } from "lucide-react";
 import { TbNotification } from "react-icons/tb";
 import { useUser } from "@/context/UserContext";
+import { NavMain } from "@/components/modules/dashboard/sidebar/nav-main";
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   userRole?: "admin" | "user";
@@ -45,10 +36,9 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
         url: `/${userRole}/dashboard`,
         icon: LayoutDashboard,
         isActive: true,
-
       },
       {
-        title: "Events",   // This Page can see only admin
+        title: "Events", // This Page can see only admin
         url: `/${userRole}/users`,
         icon: Users2Icon,
         adminOnly: true, // 👈 Admin-only
@@ -86,13 +76,12 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
         icon: Settings,
       },
     ],
-
   };
 
-   // Filter out admin-only items if the user is not an admin
-  const filteredNavItems = data.navMain.filter((item) => !item.adminOnly || userRole === "admin");
-  
-
+  // Filter out admin-only items if the user is not an admin
+  const filteredNavItems = data.navMain.filter(
+    (item) => !item.adminOnly || userRole === "admin",
+  );
 
   return (
     <Sidebar collapsible="icon" {...props}>

@@ -1,8 +1,8 @@
-import DashboardMyEvents from "@/components/modules/Dashboard/DashboardMyEvents/DashboardMyEvents";
+import DashboardMyEvents from "@/components/modules/dashboard/DashboardMyEvents/DashboardMyEvents";
 import { getMyEvent } from "@/services/Event";
 
 // 🔁 Disable static generation for this page
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 const DashboardMyEventPage = async () => {
   const data = await getMyEvent();

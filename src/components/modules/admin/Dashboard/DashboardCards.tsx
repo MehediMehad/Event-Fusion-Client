@@ -2,10 +2,9 @@
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { CalendarDays, Users, Eye, UserPlus, Lock } from "lucide-react";
-import DashboardMyEvents from "../../Dashboard/DashboardMyEvents/DashboardMyEvents";
-import PendingNotification from "../../Dashboard/Dashboard/PendingNotification";
 import { TInvitations } from "@/types/invitation";
-import { DashboardSummaryProps } from "../../Dashboard/Dashboard/DashboardSummary";
+import DashboardMyEvents from "@/components/modules/dashboard/DashboardMyEvents/DashboardMyEvents";
+import PendingNotification from "@/components/modules/dashboard/Dashboard/PendingNotification";
 
 interface DashboardSummary {
   totalEvents: number;
