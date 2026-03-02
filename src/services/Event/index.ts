@@ -4,7 +4,7 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 export const addEvent = async (eventData: FormData): Promise<any> => {
-  
+
   try {
     const token = (await cookies()).get("accessToken")?.value;
 
@@ -43,18 +43,24 @@ export const getAllEventsDetailsPage = async (
 ) => {
   const params = new URLSearchParams();
 
+  // Pagination
   if (options.page) params.append("page", options.page);
   if (options.limit) params.append("limit", options.limit);
-  if (filters.filterData) params.append("filterData", filters.filterData);
-  if (filters.searchTerm) params.append("searchTerm", filters.searchTerm);
+
+  // Filters
+  if (filters.searchTerm)
+    params.append("searchTerm", filters.searchTerm);
+
+  if (filters.filterData)
+    params.append("filterData", filters.filterData);
+
+  console.log("params 🤣🤣", params.toString());
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/event/all-details?${params}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/event/all-details?${params.toString()}`,
       {
-        next: {
-          tags: ["EVENT"],
-        },
+        cache: "no-store", // ✅ VERY IMPORTANT for filtering pages
       }
     );
 
@@ -62,11 +68,15 @@ export const getAllEventsDetailsPage = async (
       throw new Error(`HTTP error! status: ${res.status}`);
     }
 
-    const data = await res.json();
-    return data ?? { success: false, message: "No data received" };
+    return await res.json();
   } catch (error: any) {
     console.error("❌ API Error:", error.message);
-    return { success: false, message: error.message };
+
+    return {
+      success: false,
+      message: error.message,
+      data: [],
+    };
   }
 };
 
@@ -141,7 +151,7 @@ export const updateEvent = async (
   eventData: FormData,
   eventId: string
 ): Promise<any> => {
-  
+
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/event/${eventId}`,
@@ -161,7 +171,7 @@ export const updateEvent = async (
 };
 
 export const addToHeroSection = async (eventId: string) => {
-  
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/event/add-to-hero-section`, {
     method: "PUT",
     headers: {
